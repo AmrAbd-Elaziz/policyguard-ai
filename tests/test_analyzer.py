@@ -124,3 +124,37 @@ def test_clean_rule_has_no_findings():
     findings = analyze_rule(rule)
 
     assert findings == []
+
+from core.risk import score_findings
+
+
+def test_finding_severity_is_preserved():
+    rule = {
+        "rule_id": "T001",
+        "source": "10.10.10.10",
+        "destination": "any",
+        "service": "https",
+        "action": "allow",
+        "logging": "yes",
+        "security_profile": "yes",
+        "business_justification": "Approved access",
+        "environment": "production",
+    }
+
+    findings = analyze_rule(rule)
+
+    scored_findings = score_findings(
+        findings,
+        [rule],
+    )
+
+    broad_destination = next(
+        finding
+        for finding in scored_findings
+        if finding["finding"] == "BROAD_DESTINATION"
+    )
+
+    assert broad_destination["severity"] == "HIGH"
+    assert broad_destination["rule_risk_score"] == 18
+    assert broad_destination["rule_risk_severity"] == "LOW"
+    assert broad_destination["priority"] == "P4"
