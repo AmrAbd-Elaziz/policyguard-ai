@@ -2,6 +2,7 @@ from pathlib import Path
 from functools import lru_cache
 
 import yaml
+from core.validation import validate_rule_pack
 
 def create_finding(rule, finding_type, severity, description, recommendation):
     return {
@@ -59,7 +60,22 @@ def load_detection_rules():
     ) as f:
         data = yaml.safe_load(f) or {}
 
-    return data.get("detections", [])
+    detections = data.get(
+        "detections",
+        [],
+    )
+
+    validation_errors = validate_rule_pack(
+        detections
+    )
+
+    if validation_errors:
+        raise ValueError(
+            "Invalid firewall detection rule pack:\n- "
+            + "\n- ".join(validation_errors)
+        )
+
+    return detections
 
 def condition_matches(value, condition):
     value = str(value).lower().strip()
