@@ -110,6 +110,86 @@ def _render_controls(controls):
         for control in controls
     )
 
+def _build_remediation_items(findings):
+    priority_order = {
+        "P1": 1,
+        "P2": 2,
+        "P3": 3,
+        "P4": 4,
+        "P5": 5,
+    }
+
+    seen = set()
+    items = []
+
+    for finding in findings:
+        rule_id = str(
+            finding.get(
+                "rule_id",
+                "",
+            )
+        ).strip()
+
+        finding_name = str(
+            finding.get(
+                "finding",
+                "",
+            )
+        ).strip()
+
+        recommendation = str(
+            finding.get(
+                "recommendation",
+                "",
+            )
+        ).strip()
+
+        priority = str(
+            finding.get(
+                "priority",
+                "P5",
+            )
+        ).strip()
+
+        score = int(
+            finding.get(
+                "rule_risk_score",
+                0,
+            )
+        )
+
+        key = (
+            rule_id,
+            finding_name,
+        )
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+
+        items.append(
+            {
+                "rule_id": rule_id,
+                "finding": finding_name,
+                "recommendation": recommendation,
+                "priority": priority,
+                "score": score,
+            }
+        )
+
+    return sorted(
+        items,
+        key=lambda item: (
+            priority_order.get(
+                item["priority"],
+                99,
+            ),
+            -item["score"],
+            item["rule_id"],
+        ),
+    )
+
 def calculate_overall_risk(rule_results):
     scores = [
         int(rule.get("risk_score", 0))
@@ -234,6 +314,10 @@ def generate_html_report(
 
     findings_rows = []
 
+    remediation_items = _build_remediation_items(
+    findings
+    )
+
     for finding in findings:
         severity = finding.get(
             "severity",
@@ -303,6 +387,31 @@ def generate_html_report(
                 <td>{recommendation}</td>
                 <td>
                     {_render_control_mappings(mappings)}
+                </td>
+            </tr>
+            """
+        )
+
+    remediation_rows = []
+
+    for item in remediation_items:
+        remediation_rows.append(
+            f"""
+            <tr>
+                <td>
+                    {escape(item["priority"])}
+                </td>
+                <td>
+                    {escape(item["rule_id"])}
+                </td>
+                <td>
+                    {item["score"]}
+                </td>
+                <td>
+                    {escape(item["finding"])}
+                </td>
+                <td>
+                    {escape(item["recommendation"])}
                 </td>
             </tr>
             """
@@ -494,6 +603,39 @@ def generate_html_report(
 
     </div>
     """
+    remediation_plan = f"""
+    <div class="section">
+
+    <h2>Prioritized Remediation Plan</h2>
+
+    <p class="section-description">
+    Recommended remediation actions ordered by PolicyGuard priority
+    and contextual rule risk.
+    </p>
+
+    <table>
+
+    <thead>
+    <tr>
+    <th>Priority</th>
+    <th>Rule</th>
+    <th>Risk Score</th>
+    <th>Finding</th>
+    <th>Recommended Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {"".join(remediation_rows)}
+
+    </tbody>
+
+    </table>
+
+    </div>
+    """
+
     executive_summary = f"""
     <div class="section">
 
@@ -976,6 +1118,8 @@ Low
 {assessment_methodology}
 
 {framework_coverage}
+
+{remediation_plan}
 
 <div class="section">
 

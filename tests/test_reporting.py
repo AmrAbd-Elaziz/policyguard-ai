@@ -1,10 +1,55 @@
 from core.reporting import (
+    _build_remediation_items,
     _unique_controls,
     _render_controls,
     calculate_overall_risk,
     generate_html_report,
 )
 
+def test_build_remediation_items_sorts_and_deduplicates():
+    findings = [
+        {
+            "rule_id": "R002",
+            "finding": "LOGGING_GAP",
+            "recommendation": "Enable logging.",
+            "priority": "P3",
+            "rule_risk_score": 40,
+        },
+        {
+            "rule_id": "R001",
+            "finding": "ANY_ANY_RULE",
+            "recommendation": "Restrict the rule.",
+            "priority": "P1",
+            "rule_risk_score": 90,
+        },
+        {
+            "rule_id": "R001",
+            "finding": "ANY_ANY_RULE",
+            "recommendation": "Restrict the rule.",
+            "priority": "P1",
+            "rule_risk_score": 90,
+        },
+        {
+            "rule_id": "R003",
+            "finding": "INSECURE_PROTOCOL",
+            "recommendation": "Use a secure protocol.",
+            "priority": "P4",
+            "rule_risk_score": 25,
+        },
+    ]
+
+    result = _build_remediation_items(findings)
+
+    assert len(result) == 3
+
+    assert result[0]["rule_id"] == "R001"
+    assert result[0]["priority"] == "P1"
+
+    assert result[1]["rule_id"] == "R002"
+    assert result[1]["priority"] == "P3"
+
+    assert result[2]["rule_id"] == "R003"
+    assert result[2]["priority"] == "P4"
 
 def test_unique_controls_returns_sorted_unique_values():
     findings = [
@@ -167,6 +212,7 @@ def test_html_report_contains_required_sections(
     assert "Assessment Scope" in html
     assert "Assessment Methodology" in html
     assert "Framework Coverage" in html
+    assert "Prioritized Remediation Plan" in html
     assert "Top Risky Rules" in html
     assert "Security Findings" in html
 
