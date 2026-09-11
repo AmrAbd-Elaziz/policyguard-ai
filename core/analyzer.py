@@ -4,14 +4,6 @@ from functools import lru_cache
 import yaml
 from core.validation import validate_rule_pack
 
-def create_finding(rule, finding_type, severity, description, recommendation):
-    return {
-        "rule_id": rule["rule_id"],
-        "finding": finding_type,
-        "severity": severity,
-        "description": description,
-        "recommendation": recommendation,
-    }
 
 RULES_FILE = (
     Path(__file__).resolve().parent.parent
@@ -173,18 +165,7 @@ def analyze_yaml_rules(rule):
     return findings
 
 def analyze_rule(rule):
-    findings = []
-    findings.extend(analyze_yaml_rules(rule))
-    source = str(rule["source"]).lower().strip()
-    destination = str(rule["destination"]).lower().strip()
-    service = str(rule["service"]).lower().strip()
-    action = str(rule["action"]).lower().strip()
-    logging = str(rule["logging"]).lower().strip()
-    security_profile = str(rule["security_profile"]).lower().strip()
-    justification = str(rule["business_justification"]).strip()
-    environment = str(rule["environment"]).lower().strip()
-
-
+    findings = analyze_yaml_rules(rule)
 
     return attach_control_mappings(findings)
 
@@ -215,6 +196,7 @@ def evaluate_condition_group(rule, group):
     Supported:
     - all
     - any
+    - count
     - field conditions
     """
 
