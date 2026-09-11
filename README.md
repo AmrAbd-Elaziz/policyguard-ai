@@ -104,8 +104,22 @@ PolicyGuard AI V1 currently provides:
 - Rule-pack validation
 - Detection DSL validation
 - Automated regression testing
+- Interactive Streamlit web interface
+- Firewall policy upload and analysis
+- Rule-level risk prioritization
+- Security finding filtering
+- Prioritized remediation guidance
+- JSON and HTML report downloads
 
 ---
+
+## Live Demo
+
+Try PolicyGuard AI directly in your browser:
+
+[Launch PolicyGuard AI](https://policyguard-ai-ysgqsnokzczr5hvo4pbidn.streamlit.app)
+
+The web interface supports normalized firewall rules, Palo Alto-style CSV exports, and supported FortiGate firewall policy configurations.
 
 ## Detection Coverage
 
@@ -396,7 +410,7 @@ No production firewall configurations, customer information, credentials, intern
 
 ## Project Status
 
-**PolicyGuard AI V1.1 — Active Development**
+**PolicyGuard AI V1.2 — Active Development**
 
 The deterministic firewall analysis engine is functional and includes normalized CSV/JSON ingestion, Palo Alto-style CSV parsing, native FortiGate policy parsing, YAML-driven detection, contextual risk prioritization, control mapping, reporting, rule validation, and automated tests.
 
@@ -411,8 +425,6 @@ Planned capabilities include:
 - Native Palo Alto export parsing
 - Additional firewall vendor support
 - Custom detection rule packs
-- Web-based analysis interface
-- Hugging Face demonstration environment
 - AI-assisted finding explanations
 - Expanded framework mappings
 - Enhanced report visualization
