@@ -2,6 +2,7 @@ import json
 import os
 import argparse
 
+from core.reporting import generate_html_report
 from core.parser import (
     load_firewall_rules,
     load_vendor_rules,
@@ -187,6 +188,26 @@ def main():
         f"\n[green]JSON report generated:[/green] "
         f"{report_path}"
     )
+    
+    html_report_filename = (
+        f"{vendor}-policyguard-report.html"
+    )
+
+    html_report_path = os.path.join(
+    "reports",
+    html_report_filename,
+    )   
+
+    generate_html_report(
+    report,
+    html_report_path,
+    )
+
+    print(
+        f"HTML report generated: "
+        f"{html_report_path}"
+    )
+
 
     # --------------------------------------------------
     # Rule Risk Summary

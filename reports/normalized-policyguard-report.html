@@ -1,0 +1,815 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PolicyGuard AI Security Assessment</title>
+
+<style>
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        #0b1220;
+
+    color:
+        #e5e7eb;
+
+    margin:
+        0;
+
+    padding:
+        40px;
+}
+
+.container {
+    max-width:
+        1400px;
+
+    margin:
+        auto;
+}
+
+.header {
+    margin-bottom:
+        32px;
+}
+
+.header h1 {
+    font-size:
+        36px;
+
+    margin-bottom:
+        8px;
+}
+
+.subtitle {
+    color:
+        #94a3b8;
+}
+
+.summary-grid {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                180px,
+                1fr
+            )
+        );
+
+    gap:
+        16px;
+
+    margin:
+        28px 0;
+}
+
+.card {
+    background:
+        #111827;
+
+    border:
+        1px solid #1f2937;
+
+    border-radius:
+        12px;
+
+    padding:
+        20px;
+}
+
+.card .number {
+    font-size:
+        28px;
+
+    font-weight:
+        bold;
+
+    margin-top:
+        8px;
+}
+
+.section {
+    margin-top:
+        38px;
+}
+
+.section h2 {
+    margin-bottom:
+        16px;
+}
+
+table {
+    width:
+        100%;
+
+    border-collapse:
+        collapse;
+
+    background:
+        #111827;
+
+    border-radius:
+        12px;
+
+    overflow:
+        hidden;
+}
+
+th {
+    background:
+        #172033;
+
+    text-align:
+        left;
+
+    padding:
+        14px;
+}
+
+td {
+    padding:
+        14px;
+
+    vertical-align:
+        top;
+
+    border-top:
+        1px solid #1f2937;
+}
+
+.badge {
+    display:
+        inline-block;
+
+    padding:
+        4px 10px;
+
+    border-radius:
+        999px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        bold;
+}
+
+.critical {
+    background:
+        #7f1d1d;
+}
+
+.high {
+    background:
+        #9a3412;
+}
+
+.medium {
+    background:
+        #854d0e;
+}
+
+.low {
+    background:
+        #075985;
+}
+
+.info {
+    background:
+        #334155;
+}
+
+.meta {
+    background:
+        #111827;
+
+    padding:
+        16px 20px;
+
+    border-radius:
+        12px;
+
+    border:
+        1px solid #1f2937;
+}
+
+.footer {
+    margin-top:
+        50px;
+
+    color:
+        #64748b;
+
+    font-size:
+        13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>PolicyGuard AI</h1>
+
+<div class="subtitle">
+Firewall Security Policy Assessment Report
+</div>
+
+</div>
+
+<div class="meta">
+
+<strong>Vendor:</strong>
+normalized
+
+<br>
+
+<strong>Input:</strong>
+data/sample_rules.csv
+
+</div>
+
+
+<div class="summary-grid">
+
+<div class="card">
+Rules Analyzed
+<div class="number">
+8
+</div>
+</div>
+
+<div class="card">
+Total Findings
+<div class="number">
+22
+</div>
+</div>
+
+<div class="card">
+Critical
+<div class="number">
+1
+</div>
+</div>
+
+<div class="card">
+High
+<div class="number">
+14
+</div>
+</div>
+
+<div class="card">
+Medium
+<div class="number">
+7
+</div>
+</div>
+
+<div class="card">
+Low
+<div class="number">
+0
+</div>
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Top Risky Rules</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Rule</th>
+<th>Risk Score</th>
+<th>Severity</th>
+<th>Priority</th>
+<th>Risk Drivers</th>
+</tr>
+</thead>
+
+<tbody>
+
+
+            <tr>
+                <td>
+                    R001
+                </td>
+                <td>81</td>
+                <td>
+                    <span class="badge critical">
+                        CRITICAL
+                    </span>
+                </td>
+                <td>
+                    P1
+                </td>
+                <td>Broad source +18<br>Broad destination +18<br>Any service +20<br>Missing security profile +10<br>Logging disabled +8<br>Missing business justification +7</td>
+            </tr>
+            
+            <tr>
+                <td>
+                    R005
+                </td>
+                <td>49</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>
+                    P3
+                </td>
+                <td>Database service +12<br>Database exposed across mixed environments +10<br>Test/production mixing +20<br>Missing business justification +7</td>
+            </tr>
+            
+            <tr>
+                <td>
+                    R008
+                </td>
+                <td>48</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>
+                    P3
+                </td>
+                <td>Broad destination +18<br>Any service +20<br>Missing security profile +10</td>
+            </tr>
+            
+            <tr>
+                <td>
+                    R003
+                </td>
+                <td>35</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>
+                    P3
+                </td>
+                <td>Broad destination +18<br>Missing security profile +10<br>Missing business justification +7</td>
+            </tr>
+            
+            <tr>
+                <td>
+                    R004
+                </td>
+                <td>28</td>
+                <td>
+                    <span class="badge low">
+                        LOW
+                    </span>
+                </td>
+                <td>
+                    P4
+                </td>
+                <td>Insecure protocol +18<br>Missing security profile +10</td>
+            </tr>
+            
+            <tr>
+                <td>
+                    R007
+                </td>
+                <td>27</td>
+                <td>
+                    <span class="badge low">
+                        LOW
+                    </span>
+                </td>
+                <td>
+                    P4
+                </td>
+                <td>Any service +20<br>Missing business justification +7</td>
+            </tr>
+            
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="section">
+
+<h2>Security Findings</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Rule</th>
+<th>Finding Severity</th>
+<th>Rule Risk</th>
+<th>Priority</th>
+<th>Finding</th>
+<th>Recommendation</th>
+<th>Control Mapping</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>LOGGING_GAP</td>
+                <td>Enable appropriate security logging and centralized monitoring.</td>
+                <td>
+                    <strong>Principles:</strong> Security Monitoring<br><strong>NIST CSF 2.0:</strong> PR.PS-04<br><strong>CIS Controls:</strong> 13.6
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>MISSING_BUSINESS_JUSTIFICATION</td>
+                <td>Document the business owner, purpose and required access.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge critical">
+                        CRITICAL
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>ANY_ANY_RULE</td>
+                <td>Restrict the source and destination to approved systems or networks.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>BROAD_DESTINATION</td>
+                <td>Replace &#x27;any&#x27; with explicitly approved destinations.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>ANY_SERVICE</td>
+                <td>Restrict the rule to explicitly required applications and ports.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>BROAD_SOURCE</td>
+                <td>Restrict the source to approved hosts, subnets, or management networks.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R001</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>RULE_NEEDS_SPLITTING</td>
+                <td>Split the rule by source, destination, service, or environment to enforce least privilege.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R005</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>49</td>
+                <td>P3</td>
+                <td>MISSING_BUSINESS_JUSTIFICATION</td>
+                <td>Document the business owner, purpose and required access.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R005</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>49</td>
+                <td>P3</td>
+                <td>DB_EXPOSURE</td>
+                <td>Restrict database access to approved application hosts and dedicated zones.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R005</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>49</td>
+                <td>P3</td>
+                <td>TEST_PROD_MIXING</td>
+                <td>Separate test and production access using dedicated rules and zones.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R008</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>48</td>
+                <td>P3</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R008</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>48</td>
+                <td>P3</td>
+                <td>BROAD_DESTINATION</td>
+                <td>Replace &#x27;any&#x27; with explicitly approved destinations.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R008</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>48</td>
+                <td>P3</td>
+                <td>ANY_SERVICE</td>
+                <td>Restrict the rule to explicitly required applications and ports.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R008</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>48</td>
+                <td>P3</td>
+                <td>RULE_NEEDS_SPLITTING</td>
+                <td>Split the rule by source, destination, service, or environment to enforce least privilege.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R003</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>35</td>
+                <td>P3</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R003</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>35</td>
+                <td>P3</td>
+                <td>MISSING_BUSINESS_JUSTIFICATION</td>
+                <td>Document the business owner, purpose and required access.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R003</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>35</td>
+                <td>P3</td>
+                <td>BROAD_DESTINATION</td>
+                <td>Replace &#x27;any&#x27; with explicitly approved destinations.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R004</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>28</td>
+                <td>P4</td>
+                <td>INSECURE_PROTOCOL</td>
+                <td>Use an encrypted alternative or document an approved exception.</td>
+                <td>
+                    <strong>Principles:</strong> Secure Communications<br><strong>NIST CSF 2.0:</strong> PR.DS-02<br><strong>CIS Controls:</strong> 12.3, 12.6
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R004</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>28</td>
+                <td>P4</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R007</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>27</td>
+                <td>P4</td>
+                <td>MISSING_BUSINESS_JUSTIFICATION</td>
+                <td>Document the business owner, purpose and required access.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>R007</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>27</td>
+                <td>P4</td>
+                <td>ANY_SERVICE</td>
+                <td>Restrict the rule to explicitly required applications and ports.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="footer">
+
+Generated by PolicyGuard AI.
+
+<br>
+
+Control mappings are contextual references and do not represent
+a formal compliance determination.
+
+</div>
+
+</div>
+
+</body>
+</html>
