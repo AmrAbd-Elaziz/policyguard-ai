@@ -1,5 +1,5 @@
 # PolicyGuard AI
-
+[![PolicyGuard CI](https://github.com/AmrAbd-Elaziz/policyguard-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/AmrAbd-Elaziz/policyguard-ai/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 ![Tests](https://img.shields.io/badge/tests-47%20passed-brightgreen)
 ![Security](https://img.shields.io/badge/security-gitleaks%20clean-brightgreen)
