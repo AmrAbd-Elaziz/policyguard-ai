@@ -5,8 +5,8 @@ from core.risk import calculate_rule_risk
 def base_rule():
     return {
         "rule_id": "TEST-001",
-        "source": "10.0.0.1",
-        "destination": "10.0.0.2",
+        "source": "192.0.2.10",
+        "destination": "198.51.100.20",
         "service": "https",
         "action": "allow",
         "logging": "yes",
@@ -131,7 +131,7 @@ from core.risk import score_findings
 def test_finding_severity_is_preserved():
     rule = {
         "rule_id": "T001",
-        "source": "10.10.10.10",
+        "source": "192.0.2.30",
         "destination": "any",
         "service": "https",
         "action": "allow",

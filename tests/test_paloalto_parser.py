@@ -53,7 +53,7 @@ def test_paloalto_description_mapping():
 
     assert (
         rule["business_justification"]
-        == "Approved administrative access"
+        == "Approved lab administrative access"
     )
 
 

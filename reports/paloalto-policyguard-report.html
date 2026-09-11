@@ -628,6 +628,42 @@ Low
                     81
                 </td>
                 <td>
+                    ANY_ANY_RULE
+                </td>
+                <td>
+                    Restrict the source and destination to approved systems or networks.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    PA-001
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    BROAD_DESTINATION
+                </td>
+                <td>
+                    Replace &#x27;any&#x27; with explicitly approved destinations.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    PA-001
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
                     LOGGING_GAP
                 </td>
                 <td>
@@ -668,42 +704,6 @@ Low
                 </td>
                 <td>
                     Document the business owner, purpose and required access.
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    P1
-                </td>
-                <td>
-                    PA-001
-                </td>
-                <td>
-                    81
-                </td>
-                <td>
-                    ANY_ANY_RULE
-                </td>
-                <td>
-                    Restrict the source and destination to approved systems or networks.
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    P1
-                </td>
-                <td>
-                    PA-001
-                </td>
-                <td>
-                    81
-                </td>
-                <td>
-                    BROAD_DESTINATION
-                </td>
-                <td>
-                    Replace &#x27;any&#x27; with explicitly approved destinations.
                 </td>
             </tr>
             
@@ -790,10 +790,10 @@ Low
                     49
                 </td>
                 <td>
-                    DB_EXPOSURE
+                    TEST_PROD_MIXING
                 </td>
                 <td>
-                    Restrict database access to approved application hosts and dedicated zones.
+                    Separate test and production access using dedicated rules and zones.
                 </td>
             </tr>
             
@@ -808,28 +808,10 @@ Low
                     49
                 </td>
                 <td>
-                    TEST_PROD_MIXING
+                    DB_EXPOSURE
                 </td>
                 <td>
-                    Separate test and production access using dedicated rules and zones.
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    P3
-                </td>
-                <td>
-                    PA-005
-                </td>
-                <td>
-                    48
-                </td>
-                <td>
-                    MISSING_SECURITY_PROFILE
-                </td>
-                <td>
-                    Apply the appropriate security inspection controls.
+                    Restrict database access to approved application hosts and dedicated zones.
                 </td>
             </tr>
             
@@ -848,6 +830,24 @@ Low
                 </td>
                 <td>
                     Replace &#x27;any&#x27; with explicitly approved destinations.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P3
+                </td>
+                <td>
+                    PA-005
+                </td>
+                <td>
+                    48
+                </td>
+                <td>
+                    MISSING_SECURITY_PROFILE
+                </td>
+                <td>
+                    Apply the appropriate security inspection controls.
                 </td>
             </tr>
             
@@ -1048,6 +1048,38 @@ Low
             <tr>
                 <td>PA-001</td>
                 <td>
+                    <span class="badge critical">
+                        CRITICAL
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>ANY_ANY_RULE</td>
+                <td>Restrict the source and destination to approved systems or networks.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>PA-001</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>BROAD_DESTINATION</td>
+                <td>Replace &#x27;any&#x27; with explicitly approved destinations.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>PA-001</td>
+                <td>
                     <span class="badge medium">
                         MEDIUM
                     </span>
@@ -1090,38 +1122,6 @@ Low
                 <td>Document the business owner, purpose and required access.</td>
                 <td>
                     -
-                </td>
-            </tr>
-            
-            <tr>
-                <td>PA-001</td>
-                <td>
-                    <span class="badge critical">
-                        CRITICAL
-                    </span>
-                </td>
-                <td>81</td>
-                <td>P1</td>
-                <td>ANY_ANY_RULE</td>
-                <td>Restrict the source and destination to approved systems or networks.</td>
-                <td>
-                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
-                </td>
-            </tr>
-            
-            <tr>
-                <td>PA-001</td>
-                <td>
-                    <span class="badge high">
-                        HIGH
-                    </span>
-                </td>
-                <td>81</td>
-                <td>P1</td>
-                <td>BROAD_DESTINATION</td>
-                <td>Replace &#x27;any&#x27; with explicitly approved destinations.</td>
-                <td>
-                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
                 </td>
             </tr>
             
@@ -1198,8 +1198,8 @@ Low
                 </td>
                 <td>49</td>
                 <td>P3</td>
-                <td>DB_EXPOSURE</td>
-                <td>Restrict database access to approved application hosts and dedicated zones.</td>
+                <td>TEST_PROD_MIXING</td>
+                <td>Separate test and production access using dedicated rules and zones.</td>
                 <td>
                     -
                 </td>
@@ -1214,24 +1214,8 @@ Low
                 </td>
                 <td>49</td>
                 <td>P3</td>
-                <td>TEST_PROD_MIXING</td>
-                <td>Separate test and production access using dedicated rules and zones.</td>
-                <td>
-                    -
-                </td>
-            </tr>
-            
-            <tr>
-                <td>PA-005</td>
-                <td>
-                    <span class="badge high">
-                        HIGH
-                    </span>
-                </td>
-                <td>48</td>
-                <td>P3</td>
-                <td>MISSING_SECURITY_PROFILE</td>
-                <td>Apply the appropriate security inspection controls.</td>
+                <td>DB_EXPOSURE</td>
+                <td>Restrict database access to approved application hosts and dedicated zones.</td>
                 <td>
                     -
                 </td>
@@ -1250,6 +1234,22 @@ Low
                 <td>Replace &#x27;any&#x27; with explicitly approved destinations.</td>
                 <td>
                     <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>PA-005</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>48</td>
+                <td>P3</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
                 </td>
             </tr>
             

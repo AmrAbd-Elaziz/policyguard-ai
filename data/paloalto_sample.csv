@@ -1,7 +1,7 @@
 Name,Source,Destination,Service,Action,Log End,Security Profile,Description,Environment
-Allow-Internet,any,any,any,allow,no,no,,production
-Admin-SSH,mgmt-net,app-server,ssh,allow,yes,yes,Approved administrative access,production
-Legacy-Telnet,admin-net,legacy-server,telnet,allow,yes,no,Legacy application support,production
-Test-To-Prod,test-net,prod-db,1433,allow,yes,yes,,mixed
-Vulnerability-Scanner,scanner-net,any,any,allow,yes,no,Approved vulnerability scanning,production
-Default-Deny,any,any,any,deny,yes,yes,Default deny policy,production
+Lab-Allow-Internet,any,any,any,allow,no,no,,production
+Lab-Admin-SSH,lab-mgmt-net,lab-app-server,ssh,allow,yes,yes,Approved lab administrative access,production
+Lab-Legacy-Telnet,lab-admin-net,lab-legacy-server,telnet,allow,yes,no,Legacy lab application support,production
+Lab-Test-To-Prod,lab-test-net,lab-prod-db,1433,allow,yes,yes,,mixed
+Lab-Vulnerability-Scanner,lab-scanner-net,any,any,allow,yes,no,Approved lab vulnerability scanning,production
+Lab-Default-Deny,any,any,any,deny,yes,yes,Default deny policy,production

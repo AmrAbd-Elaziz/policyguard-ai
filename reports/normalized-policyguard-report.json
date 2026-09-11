@@ -8,6 +8,80 @@
     "findings": [
         {
             "rule_id": "R001",
+            "finding": "ANY_ANY_RULE",
+            "severity": "CRITICAL",
+            "description": "Firewall rule permits unrestricted any-to-any access.",
+            "recommendation": "Restrict the source and destination to approved systems or networks.",
+            "detection_id": "PG-001",
+            "control_mappings": {
+                "principles": [
+                    "Least Privilege",
+                    "Network Segmentation"
+                ],
+                "nist_csf_2_0": [
+                    "PR.AA-05",
+                    "PR.IR-01"
+                ],
+                "cis_controls_8_1": [
+                    "12.2",
+                    "13.4"
+                ],
+                "pci_dss_4": [
+                    "1.3.1",
+                    "1.3.2"
+                ]
+            },
+            "rule_risk_score": 81,
+            "rule_risk_severity": "CRITICAL",
+            "risk_breakdown": [
+                "Broad source +18",
+                "Broad destination +18",
+                "Any service +20",
+                "Missing security profile +10",
+                "Logging disabled +8",
+                "Missing business justification +7"
+            ],
+            "priority": "P1"
+        },
+        {
+            "rule_id": "R001",
+            "finding": "BROAD_DESTINATION",
+            "severity": "HIGH",
+            "description": "Firewall rule permits access to any destination.",
+            "recommendation": "Replace 'any' with explicitly approved destinations.",
+            "detection_id": "PG-002",
+            "control_mappings": {
+                "principles": [
+                    "Least Privilege",
+                    "Network Segmentation"
+                ],
+                "nist_csf_2_0": [
+                    "PR.AA-05",
+                    "PR.IR-01"
+                ],
+                "cis_controls_8_1": [
+                    "12.2",
+                    "13.4"
+                ],
+                "pci_dss_4": [
+                    "1.3.1",
+                    "1.3.2"
+                ]
+            },
+            "rule_risk_score": 81,
+            "rule_risk_severity": "CRITICAL",
+            "risk_breakdown": [
+                "Broad source +18",
+                "Broad destination +18",
+                "Any service +20",
+                "Missing security profile +10",
+                "Logging disabled +8",
+                "Missing business justification +7"
+            ],
+            "priority": "P1"
+        },
+        {
+            "rule_id": "R001",
             "finding": "LOGGING_GAP",
             "severity": "MEDIUM",
             "description": "Allowed firewall rule does not have logging enabled.",
@@ -89,82 +163,11 @@
         },
         {
             "rule_id": "R001",
-            "finding": "ANY_ANY_RULE",
-            "severity": "CRITICAL",
-            "description": "The rule permits traffic from any source to any destination.",
-            "recommendation": "Restrict the source and destination to approved systems or networks.",
-            "control_mappings": {
-                "principles": [
-                    "Least Privilege",
-                    "Network Segmentation"
-                ],
-                "nist_csf_2_0": [
-                    "PR.AA-05",
-                    "PR.IR-01"
-                ],
-                "cis_controls_8_1": [
-                    "12.2",
-                    "13.4"
-                ],
-                "pci_dss_4": [
-                    "1.3.1",
-                    "1.3.2"
-                ]
-            },
-            "rule_risk_score": 81,
-            "rule_risk_severity": "CRITICAL",
-            "risk_breakdown": [
-                "Broad source +18",
-                "Broad destination +18",
-                "Any service +20",
-                "Missing security profile +10",
-                "Logging disabled +8",
-                "Missing business justification +7"
-            ],
-            "priority": "P1"
-        },
-        {
-            "rule_id": "R001",
-            "finding": "BROAD_DESTINATION",
-            "severity": "HIGH",
-            "description": "The rule permits access to any destination.",
-            "recommendation": "Replace 'any' with explicitly approved destinations.",
-            "control_mappings": {
-                "principles": [
-                    "Least Privilege",
-                    "Network Segmentation"
-                ],
-                "nist_csf_2_0": [
-                    "PR.AA-05",
-                    "PR.IR-01"
-                ],
-                "cis_controls_8_1": [
-                    "12.2",
-                    "13.4"
-                ],
-                "pci_dss_4": [
-                    "1.3.1",
-                    "1.3.2"
-                ]
-            },
-            "rule_risk_score": 81,
-            "rule_risk_severity": "CRITICAL",
-            "risk_breakdown": [
-                "Broad source +18",
-                "Broad destination +18",
-                "Any service +20",
-                "Missing security profile +10",
-                "Logging disabled +8",
-                "Missing business justification +7"
-            ],
-            "priority": "P1"
-        },
-        {
-            "rule_id": "R001",
             "finding": "ANY_SERVICE",
             "severity": "HIGH",
             "description": "The rule permits any service or port.",
             "recommendation": "Restrict the rule to explicitly required applications and ports.",
+            "detection_id": "PG-008",
             "control_mappings": {
                 "principles": [],
                 "nist_csf_2_0": [],
@@ -189,6 +192,7 @@
             "severity": "HIGH",
             "description": "The rule permits traffic from any source.",
             "recommendation": "Restrict the source to approved hosts, subnets, or management networks.",
+            "detection_id": "PG-009",
             "control_mappings": {
                 "principles": [
                     "Least Privilege",
@@ -224,6 +228,7 @@
             "severity": "MEDIUM",
             "description": "The rule combines multiple broad access conditions and should be separated into more specific rules.",
             "recommendation": "Split the rule by source, destination, service, or environment to enforce least privilege.",
+            "detection_id": "PG-012",
             "control_mappings": {
                 "principles": [],
                 "nist_csf_2_0": [],
@@ -249,6 +254,29 @@
             "description": "Allowed firewall rule does not include documented business justification.",
             "recommendation": "Document the business owner, purpose and required access.",
             "detection_id": "PG-006",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
+            "rule_risk_score": 49,
+            "rule_risk_severity": "MEDIUM",
+            "risk_breakdown": [
+                "Database service +12",
+                "Database exposed across mixed environments +10",
+                "Test/production mixing +20",
+                "Missing business justification +7"
+            ],
+            "priority": "P3"
+        },
+        {
+            "rule_id": "R005",
+            "finding": "TEST_PROD_MIXING",
+            "severity": "HIGH",
+            "description": "The rule mixes test and production environments.",
+            "recommendation": "Separate test and production access using dedicated rules and zones.",
+            "detection_id": "PG-007",
             "control_mappings": {
                 "principles": [],
                 "nist_csf_2_0": [],
@@ -289,55 +317,12 @@
             "priority": "P3"
         },
         {
-            "rule_id": "R005",
-            "finding": "TEST_PROD_MIXING",
-            "severity": "HIGH",
-            "description": "The rule mixes test and production environments.",
-            "recommendation": "Separate test and production access using dedicated rules and zones.",
-            "control_mappings": {
-                "principles": [],
-                "nist_csf_2_0": [],
-                "cis_controls_8_1": [],
-                "pci_dss_4": []
-            },
-            "rule_risk_score": 49,
-            "rule_risk_severity": "MEDIUM",
-            "risk_breakdown": [
-                "Database service +12",
-                "Database exposed across mixed environments +10",
-                "Test/production mixing +20",
-                "Missing business justification +7"
-            ],
-            "priority": "P3"
-        },
-        {
-            "rule_id": "R008",
-            "finding": "MISSING_SECURITY_PROFILE",
-            "severity": "HIGH",
-            "description": "Allowed firewall rule does not have a security inspection profile applied.",
-            "recommendation": "Apply the appropriate security inspection controls.",
-            "detection_id": "PG-005",
-            "control_mappings": {
-                "principles": [],
-                "nist_csf_2_0": [],
-                "cis_controls_8_1": [],
-                "pci_dss_4": []
-            },
-            "rule_risk_score": 48,
-            "rule_risk_severity": "MEDIUM",
-            "risk_breakdown": [
-                "Broad destination +18",
-                "Any service +20",
-                "Missing security profile +10"
-            ],
-            "priority": "P3"
-        },
-        {
             "rule_id": "R008",
             "finding": "BROAD_DESTINATION",
             "severity": "HIGH",
-            "description": "The rule permits access to any destination.",
+            "description": "Firewall rule permits access to any destination.",
             "recommendation": "Replace 'any' with explicitly approved destinations.",
+            "detection_id": "PG-002",
             "control_mappings": {
                 "principles": [
                     "Least Privilege",
@@ -367,10 +352,33 @@
         },
         {
             "rule_id": "R008",
+            "finding": "MISSING_SECURITY_PROFILE",
+            "severity": "HIGH",
+            "description": "Allowed firewall rule does not have a security inspection profile applied.",
+            "recommendation": "Apply the appropriate security inspection controls.",
+            "detection_id": "PG-005",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
+            "rule_risk_score": 48,
+            "rule_risk_severity": "MEDIUM",
+            "risk_breakdown": [
+                "Broad destination +18",
+                "Any service +20",
+                "Missing security profile +10"
+            ],
+            "priority": "P3"
+        },
+        {
+            "rule_id": "R008",
             "finding": "ANY_SERVICE",
             "severity": "HIGH",
             "description": "The rule permits any service or port.",
             "recommendation": "Restrict the rule to explicitly required applications and ports.",
+            "detection_id": "PG-008",
             "control_mappings": {
                 "principles": [],
                 "nist_csf_2_0": [],
@@ -392,6 +400,7 @@
             "severity": "MEDIUM",
             "description": "The rule combines multiple broad access conditions and should be separated into more specific rules.",
             "recommendation": "Split the rule by source, destination, service, or environment to enforce least privilege.",
+            "detection_id": "PG-012",
             "control_mappings": {
                 "principles": [],
                 "nist_csf_2_0": [],
@@ -404,6 +413,40 @@
                 "Broad destination +18",
                 "Any service +20",
                 "Missing security profile +10"
+            ],
+            "priority": "P3"
+        },
+        {
+            "rule_id": "R003",
+            "finding": "BROAD_DESTINATION",
+            "severity": "HIGH",
+            "description": "Firewall rule permits access to any destination.",
+            "recommendation": "Replace 'any' with explicitly approved destinations.",
+            "detection_id": "PG-002",
+            "control_mappings": {
+                "principles": [
+                    "Least Privilege",
+                    "Network Segmentation"
+                ],
+                "nist_csf_2_0": [
+                    "PR.AA-05",
+                    "PR.IR-01"
+                ],
+                "cis_controls_8_1": [
+                    "12.2",
+                    "13.4"
+                ],
+                "pci_dss_4": [
+                    "1.3.1",
+                    "1.3.2"
+                ]
+            },
+            "rule_risk_score": 35,
+            "rule_risk_severity": "MEDIUM",
+            "risk_breakdown": [
+                "Broad destination +18",
+                "Missing security profile +10",
+                "Missing business justification +7"
             ],
             "priority": "P3"
         },
@@ -441,39 +484,6 @@
                 "nist_csf_2_0": [],
                 "cis_controls_8_1": [],
                 "pci_dss_4": []
-            },
-            "rule_risk_score": 35,
-            "rule_risk_severity": "MEDIUM",
-            "risk_breakdown": [
-                "Broad destination +18",
-                "Missing security profile +10",
-                "Missing business justification +7"
-            ],
-            "priority": "P3"
-        },
-        {
-            "rule_id": "R003",
-            "finding": "BROAD_DESTINATION",
-            "severity": "HIGH",
-            "description": "The rule permits access to any destination.",
-            "recommendation": "Replace 'any' with explicitly approved destinations.",
-            "control_mappings": {
-                "principles": [
-                    "Least Privilege",
-                    "Network Segmentation"
-                ],
-                "nist_csf_2_0": [
-                    "PR.AA-05",
-                    "PR.IR-01"
-                ],
-                "cis_controls_8_1": [
-                    "12.2",
-                    "13.4"
-                ],
-                "pci_dss_4": [
-                    "1.3.1",
-                    "1.3.2"
-                ]
             },
             "rule_risk_score": 35,
             "rule_risk_severity": "MEDIUM",
@@ -560,6 +570,7 @@
             "severity": "HIGH",
             "description": "The rule permits any service or port.",
             "recommendation": "Restrict the rule to explicitly required applications and ports.",
+            "detection_id": "PG-008",
             "control_mappings": {
                 "principles": [],
                 "nist_csf_2_0": [],
