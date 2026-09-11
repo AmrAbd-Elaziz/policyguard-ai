@@ -1,0 +1,1224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PolicyGuard AI Security Assessment</title>
+
+<style>
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        #0b1220;
+
+    color:
+        #e5e7eb;
+
+    margin:
+        0;
+
+    padding:
+        40px;
+}
+
+.container {
+    max-width:
+        1400px;
+
+    margin:
+        auto;
+}
+
+.header {
+    margin-bottom:
+        32px;
+}
+
+.header h1 {
+    font-size:
+        36px;
+
+    margin-bottom:
+        8px;
+}
+
+.subtitle {
+    color:
+        #94a3b8;
+}
+
+.summary-grid {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                180px,
+                1fr
+            )
+        );
+
+    gap:
+        16px;
+
+    margin:
+        28px 0;
+}
+
+.card {
+    background:
+        #111827;
+
+    border:
+        1px solid #1f2937;
+
+    border-radius:
+        12px;
+
+    padding:
+        20px;
+}
+
+.card .number {
+    font-size:
+        28px;
+
+    font-weight:
+        bold;
+
+    margin-top:
+        8px;
+}
+
+.section {
+    margin-top:
+        38px;
+}
+
+.section h2 {
+    margin-bottom:
+        16px;
+}
+
+table {
+    width:
+        100%;
+
+    border-collapse:
+        collapse;
+
+    background:
+        #111827;
+
+    border-radius:
+        12px;
+
+    overflow:
+        hidden;
+}
+
+th {
+    background:
+        #172033;
+
+    text-align:
+        left;
+
+    padding:
+        14px;
+}
+
+td {
+    padding:
+        14px;
+
+    vertical-align:
+        top;
+
+    border-top:
+        1px solid #1f2937;
+}
+
+.badge {
+    display:
+        inline-block;
+
+    padding:
+        4px 10px;
+
+    border-radius:
+        999px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        bold;
+}
+
+.critical {
+    background:
+        #7f1d1d;
+}
+
+.high {
+    background:
+        #9a3412;
+}
+
+.medium {
+    background:
+        #854d0e;
+}
+
+.low {
+    background:
+        #075985;
+}
+
+.info {
+    background:
+        #334155;
+}
+
+.meta {
+    background:
+        #111827;
+
+    padding:
+        16px 20px;
+
+    border-radius:
+        12px;
+
+    border:
+        1px solid #1f2937;
+}
+
+.footer {
+    margin-top:
+        50px;
+
+    color:
+        #64748b;
+
+    font-size:
+        13px;
+}
+.executive-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(220px, 300px)
+        1fr;
+    gap: 20px;
+}
+
+.overall-risk-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.risk-label {
+    color: #94a3b8;
+    margin-bottom: 14px;
+}
+
+.overall-risk-value {
+    margin-bottom: 14px;
+}
+
+.overall-risk-value .badge {
+    font-size: 16px;
+    padding: 7px 14px;
+}
+
+.overall-risk-score {
+    color: #cbd5e1;
+}
+
+.executive-text {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px;
+    line-height: 1.7;
+    color: #cbd5e1;
+}
+
+@media (max-width: 800px) {
+    .executive-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.info-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(200px, 1fr)
+        );
+    gap: 16px;
+}
+
+.info-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.info-card strong {
+    display: block;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+.methodology-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px;
+    line-height: 1.7;
+}
+
+.methodology-card li {
+    margin-bottom: 12px;
+}
+.section-description {
+    color: #94a3b8;
+    margin-bottom: 18px;
+}
+
+.framework-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+    gap: 16px;
+}
+
+.framework-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.framework-card h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.control-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.control-tag {
+    background: #172033;
+    border: 1px solid #334155;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.mapping-note {
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 14px;
+}
+
+.muted {
+    color: #64748b;
+}
+
+@media (max-width: 800px) {
+    .framework-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>PolicyGuard AI</h1>
+
+<div class="subtitle">
+Firewall Security Policy Assessment Report
+</div>
+
+</div>
+
+<div class="meta">
+
+<strong>Vendor:</strong>
+fortigate
+
+<br>
+
+<strong>Input:</strong>
+data/fortigate_sample.conf
+
+</div>
+
+
+    <div class="section">
+
+    <h2>Executive Summary</h2>
+
+    <div class="executive-grid">
+
+    <div class="overall-risk-card">
+
+    <div class="risk-label">
+    Overall Risk Rating
+    </div>
+
+    <div class="overall-risk-value">
+    <span class="badge critical">
+    CRITICAL
+    </span>
+    </div>
+
+    <div class="overall-risk-score">
+    Highest Rule Risk Score:
+    <strong>81/100</strong>
+    </div>
+
+    </div>
+
+    <div class="executive-text">
+
+    The assessment analyzed
+    <strong>5</strong>
+    firewall rules and identified
+    <strong>14</strong>
+    security findings.
+
+    The highest observed rule risk was
+    <strong>81/100</strong>,
+    resulting in an overall assessment rating of
+    <strong>CRITICAL</strong>.
+
+    PolicyGuard evaluates firewall policies using
+    deterministic security detections, contextual risk
+    scoring, remediation guidance, and control mapping.
+
+    </div>
+
+    </div>
+
+    </div>
+    
+<div class="summary-grid">
+
+<div class="card">
+Rules Analyzed
+<div class="number">
+5
+</div>
+</div>
+
+<div class="card">
+Total Findings
+<div class="number">
+14
+</div>
+</div>
+
+<div class="card">
+Critical
+<div class="number">
+1
+</div>
+</div>
+
+<div class="card">
+High
+<div class="number">
+9
+</div>
+</div>
+
+<div class="card">
+Medium
+<div class="number">
+4
+</div>
+</div>
+
+<div class="card">
+Low
+<div class="number">
+0
+</div>
+</div>
+
+</div>
+
+    <div class="section">
+
+    <h2>Assessment Scope</h2>
+
+    <div class="info-grid">
+
+    <div class="info-card">
+    <strong>Firewall Vendor</strong>
+    <div>fortigate</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Input Source</strong>
+    <div>data/fortigate_sample.conf</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Rules Evaluated</strong>
+    <div>5</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Findings Identified</strong>
+    <div>14</div>
+    </div>
+
+    </div>
+
+    </div>
+    
+
+
+    <div class="section">
+
+    <h2>Assessment Methodology</h2>
+
+    <div class="methodology-card">
+
+    <ol>
+    <li>
+    <strong>Policy Normalization:</strong>
+    Firewall policy data is converted into a common internal rule model.
+    </li>
+
+    <li>
+    <strong>Deterministic Security Detection:</strong>
+    Rules are evaluated against PolicyGuard security checks for excessive access,
+    weak protocols, missing controls, and environment separation issues.
+    </li>
+
+    <li>
+    <strong>Contextual Risk Scoring:</strong>
+    Each rule receives a contextual risk score based on exposure,
+    service sensitivity, security controls, logging, and business justification.
+    </li>
+
+    <li>
+    <strong>Prioritization:</strong>
+    Rules are assigned a remediation priority based on their calculated risk.
+    </li>
+
+    <li>
+    <strong>Control Mapping:</strong>
+    Applicable findings are mapped to contextual security control references
+    such as NIST CSF 2.0, CIS Controls, and PCI DSS.
+    </li>
+
+    </ol>
+
+    </div>
+
+    </div>
+    
+
+
+    <div class="section">
+
+    <h2>Framework Coverage</h2>
+
+    <p class="section-description">
+    Contextual control references associated with findings
+    identified during this assessment.
+    </p>
+
+    <div class="framework-grid">
+
+    <div class="framework-card">
+    <h3>NIST CSF 2.0</h3>
+    <div class="control-tags">
+    <span class="control-tag">PR.AA-05</span><span class="control-tag">PR.DS-02</span><span class="control-tag">PR.IR-01</span><span class="control-tag">PR.PS-04</span>
+    </div>
+    </div>
+
+    <div class="framework-card">
+    <h3>CIS Controls</h3>
+    <div class="control-tags">
+    <span class="control-tag">12.2</span><span class="control-tag">12.3</span><span class="control-tag">12.6</span><span class="control-tag">13.4</span><span class="control-tag">13.6</span>
+    </div>
+    </div>
+
+    <div class="framework-card">
+    <h3>PCI DSS</h3>
+    <div class="control-tags">
+    <span class="control-tag">1.3.1</span><span class="control-tag">1.3.2</span>
+    </div>
+    </div>
+
+    </div>
+
+    <div class="mapping-note">
+    These mappings provide contextual security references only
+    and do not constitute a compliance determination.
+    </div>
+
+    </div>
+    
+
+
+    <div class="section">
+
+    <h2>Prioritized Remediation Plan</h2>
+
+    <p class="section-description">
+    Recommended remediation actions ordered by PolicyGuard priority
+    and contextual rule risk.
+    </p>
+
+    <table>
+
+    <thead>
+    <tr>
+    <th>Priority</th>
+    <th>Rule</th>
+    <th>Risk Score</th>
+    <th>Finding</th>
+    <th>Recommended Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    ANY_ANY_RULE
+                </td>
+                <td>
+                    Restrict the source and destination to approved systems or networks.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    BROAD_DESTINATION
+                </td>
+                <td>
+                    Replace &#x27;any&#x27; with explicitly approved destinations.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    LOGGING_GAP
+                </td>
+                <td>
+                    Enable appropriate security logging and centralized monitoring.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    MISSING_SECURITY_PROFILE
+                </td>
+                <td>
+                    Apply the appropriate security inspection controls.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    MISSING_BUSINESS_JUSTIFICATION
+                </td>
+                <td>
+                    Document the business owner, purpose and required access.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    ANY_SERVICE
+                </td>
+                <td>
+                    Restrict the rule to explicitly required applications and ports.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    BROAD_SOURCE
+                </td>
+                <td>
+                    Restrict the source to approved hosts, subnets, or management networks.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    81
+                </td>
+                <td>
+                    RULE_NEEDS_SPLITTING
+                </td>
+                <td>
+                    Split the rule by source, destination, service, or environment to enforce least privilege.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P3
+                </td>
+                <td>
+                    4
+                </td>
+                <td>
+                    59
+                </td>
+                <td>
+                    MISSING_SECURITY_PROFILE
+                </td>
+                <td>
+                    Apply the appropriate security inspection controls.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P3
+                </td>
+                <td>
+                    4
+                </td>
+                <td>
+                    59
+                </td>
+                <td>
+                    MISSING_BUSINESS_JUSTIFICATION
+                </td>
+                <td>
+                    Document the business owner, purpose and required access.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P3
+                </td>
+                <td>
+                    4
+                </td>
+                <td>
+                    59
+                </td>
+                <td>
+                    TEST_PROD_MIXING
+                </td>
+                <td>
+                    Separate test and production access using dedicated rules and zones.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P3
+                </td>
+                <td>
+                    4
+                </td>
+                <td>
+                    59
+                </td>
+                <td>
+                    DB_EXPOSURE
+                </td>
+                <td>
+                    Restrict database access to approved application hosts and dedicated zones.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P4
+                </td>
+                <td>
+                    3
+                </td>
+                <td>
+                    28
+                </td>
+                <td>
+                    INSECURE_PROTOCOL
+                </td>
+                <td>
+                    Use an encrypted alternative or document an approved exception.
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    P4
+                </td>
+                <td>
+                    3
+                </td>
+                <td>
+                    28
+                </td>
+                <td>
+                    MISSING_SECURITY_PROFILE
+                </td>
+                <td>
+                    Apply the appropriate security inspection controls.
+                </td>
+            </tr>
+            
+
+    </tbody>
+
+    </table>
+
+    </div>
+    
+
+<div class="section">
+
+<h2>Top Risky Rules</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Rule</th>
+<th>Risk Score</th>
+<th>Severity</th>
+<th>Priority</th>
+<th>Risk Drivers</th>
+</tr>
+</thead>
+
+<tbody>
+
+
+            <tr>
+                <td>
+                    1
+                </td>
+                <td>81</td>
+                <td>
+                    <span class="badge critical">
+                        CRITICAL
+                    </span>
+                </td>
+                <td>
+                    P1
+                </td>
+                <td>Broad source +18<br>Broad destination +18<br>Any service +20<br>Missing security profile +10<br>Logging disabled +8<br>Missing business justification +7</td>
+            </tr>
+            
+            <tr>
+                <td>
+                    4
+                </td>
+                <td>59</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>
+                    P3
+                </td>
+                <td>Database service +12<br>Database exposed across mixed environments +10<br>Test/production mixing +20<br>Missing security profile +10<br>Missing business justification +7</td>
+            </tr>
+            
+            <tr>
+                <td>
+                    3
+                </td>
+                <td>28</td>
+                <td>
+                    <span class="badge low">
+                        LOW
+                    </span>
+                </td>
+                <td>
+                    P4
+                </td>
+                <td>Insecure protocol +18<br>Missing security profile +10</td>
+            </tr>
+            
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="section">
+
+<h2>Security Findings</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Rule</th>
+<th>Finding Severity</th>
+<th>Rule Risk</th>
+<th>Priority</th>
+<th>Finding</th>
+<th>Recommendation</th>
+<th>Control Mapping</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge critical">
+                        CRITICAL
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>ANY_ANY_RULE</td>
+                <td>Restrict the source and destination to approved systems or networks.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>BROAD_DESTINATION</td>
+                <td>Replace &#x27;any&#x27; with explicitly approved destinations.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1, 1.3.2
+                </td>
+            </tr>
+            
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>LOGGING_GAP</td>
+                <td>Enable appropriate security logging and centralized monitoring.</td>
+                <td>
+                    <strong>Principles:</strong> Security Monitoring<br><strong>NIST CSF 2.0:</strong> PR.PS-04<br><strong>CIS Controls:</strong> 13.6
+                </td>
+            </tr>
+            
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>MISSING_BUSINESS_JUSTIFICATION</td>
+                <td>Document the business owner, purpose and required access.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>ANY_SERVICE</td>
+                <td>Restrict the rule to explicitly required applications and ports.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>BROAD_SOURCE</td>
+                <td>Restrict the source to approved hosts, subnets, or management networks.</td>
+                <td>
+                    <strong>Principles:</strong> Least Privilege, Network Segmentation<br><strong>NIST CSF 2.0:</strong> PR.AA-05, PR.IR-01<br><strong>CIS Controls:</strong> 12.2, 13.4<br><strong>PCI DSS:</strong> 1.3.1
+                </td>
+            </tr>
+            
+            <tr>
+                <td>1</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>81</td>
+                <td>P1</td>
+                <td>RULE_NEEDS_SPLITTING</td>
+                <td>Split the rule by source, destination, service, or environment to enforce least privilege.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>59</td>
+                <td>P3</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>
+                    <span class="badge medium">
+                        MEDIUM
+                    </span>
+                </td>
+                <td>59</td>
+                <td>P3</td>
+                <td>MISSING_BUSINESS_JUSTIFICATION</td>
+                <td>Document the business owner, purpose and required access.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>59</td>
+                <td>P3</td>
+                <td>TEST_PROD_MIXING</td>
+                <td>Separate test and production access using dedicated rules and zones.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>59</td>
+                <td>P3</td>
+                <td>DB_EXPOSURE</td>
+                <td>Restrict database access to approved application hosts and dedicated zones.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>28</td>
+                <td>P4</td>
+                <td>INSECURE_PROTOCOL</td>
+                <td>Use an encrypted alternative or document an approved exception.</td>
+                <td>
+                    <strong>Principles:</strong> Secure Communications<br><strong>NIST CSF 2.0:</strong> PR.DS-02<br><strong>CIS Controls:</strong> 12.3, 12.6
+                </td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>
+                    <span class="badge high">
+                        HIGH
+                    </span>
+                </td>
+                <td>28</td>
+                <td>P4</td>
+                <td>MISSING_SECURITY_PROFILE</td>
+                <td>Apply the appropriate security inspection controls.</td>
+                <td>
+                    -
+                </td>
+            </tr>
+            
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="footer">
+
+Generated by PolicyGuard AI.
+
+<br>
+
+Control mappings are contextual references and do not represent
+a formal compliance determination.
+
+</div>
+
+</div>
+
+</body>
+</html>
