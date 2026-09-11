@@ -1,0 +1,9 @@
+rule_id,source,destination,service,action,logging,security_profile,business_justification,environment
+R001,any,any,any,allow,no,no,,production
+R002,10.10.10.0/24,10.20.20.10,ssh,allow,yes,yes,Admin access,production
+R003,10.10.30.0/24,any,http,allow,yes,no,,production
+R004,10.10.40.20,10.20.50.10,telnet,allow,yes,no,Legacy support,production
+R005,test-subnet,prod-db,1433,allow,yes,yes,,mixed
+R006,jump-server,10.20.60.0/24,rdp,allow,yes,yes,Support access,production
+R007,10.10.70.0/24,10.20.80.0/24,any,allow,yes,yes,,production
+R008,scanner,any,any,allow,yes,no,Vulnerability scanning,production

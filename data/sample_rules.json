@@ -1,0 +1,37 @@
+{
+  "rules": [
+    {
+      "rule_id": "J001",
+      "source": "any",
+      "destination": "any",
+      "service": "any",
+      "action": "allow",
+      "logging": "no",
+      "security_profile": "no",
+      "business_justification": "",
+      "environment": "production"
+    },
+    {
+      "rule_id": "J002",
+      "source": "jump-server",
+      "destination": "app-server",
+      "service": "ssh",
+      "action": "allow",
+      "logging": "yes",
+      "security_profile": "yes",
+      "business_justification": "Approved administration",
+      "environment": "production"
+    },
+    {
+      "rule_id": "J003",
+      "source": "test-network",
+      "destination": "prod-db",
+      "service": "1433",
+      "action": "allow",
+      "logging": "yes",
+      "security_profile": "yes",
+      "business_justification": "",
+      "environment": "mixed"
+    }
+  ]
+}
