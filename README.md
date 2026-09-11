@@ -92,6 +92,7 @@ PolicyGuard AI V1 currently provides:
 - Normalized CSV firewall policy ingestion
 - Normalized JSON firewall policy ingestion
 - Palo Alto-style CSV parsing
+- Native FortiGate firewall policy configuration parsing
 - YAML-driven security detection rules
 - Nested `all` and `any` detection logic
 - Threshold-based `count` conditions
@@ -256,6 +257,24 @@ R001,any,any,any,allow,no,no,,production
 
 PolicyGuard also includes a Palo Alto-style CSV parser that converts vendor-specific fields into the normalized PolicyGuard schema.
 
+### FortiGate Configuration
+
+PolicyGuard supports FortiGate `config firewall policy` configuration blocks and normalizes vendor-specific policy fields into the PolicyGuard analysis schema.
+
+Supported FortiGate policy attributes include addresses, services, actions, logging, comments, interfaces, and common security profile references.
+
+```text
+config firewall policy
+    edit 1
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set service "ALL"
+        set logtraffic disable
+    next
+end
+```
+
 ---
 
 ## Usage
@@ -271,7 +290,11 @@ Analyze the Palo Alto-style sample policy:
 ```bash
 python app.py data/paloalto_sample.csv --vendor paloalto
 ```
+Analyze a FortiGate firewall configuration:
 
+```bash
+python app.py data/fortigate_sample.conf --vendor fortigate
+```
 Generated reports are written to the `reports/` directory.
 
 ---
@@ -345,6 +368,8 @@ The project currently includes tests covering:
 - Nested detection logic
 - Threshold-based conditions
 - Palo Alto parsing
+- FortiGate configuration parsing and normalization
+- FortiGate parser edge cases
 - Risk behavior
 - Control mappings
 - Reporting
@@ -371,9 +396,9 @@ No production firewall configurations, customer information, credentials, intern
 
 ## Project Status
 
-**PolicyGuard AI V1 — Active Development**
+**PolicyGuard AI V1.1 — Active Development**
 
-The deterministic firewall analysis engine is functional and includes detection, risk prioritization, control mapping, reporting, rule validation, and automated tests.
+The deterministic firewall analysis engine is functional and includes normalized CSV/JSON ingestion, Palo Alto-style CSV parsing, native FortiGate policy parsing, YAML-driven detection, contextual risk prioritization, control mapping, reporting, rule validation, and automated tests.
 
 The AI-assisted explanation layer is planned for a future release and is intentionally separated from deterministic security detection.
 
@@ -383,14 +408,12 @@ The AI-assisted explanation layer is planned for a future release and is intenti
 
 Planned capabilities include:
 
-- FortiGate configuration parsing
 - Native Palo Alto export parsing
 - Additional firewall vendor support
 - Custom detection rule packs
 - Web-based analysis interface
 - Hugging Face demonstration environment
 - AI-assisted finding explanations
-- CI/CD security pipeline
 - Expanded framework mappings
 - Enhanced report visualization
 
