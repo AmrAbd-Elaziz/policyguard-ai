@@ -89,3 +89,53 @@ def test_rule_matches_detection():
         rule,
         detection,
     ) is True
+
+from core.analyzer import condition_matches
+
+
+def test_condition_not_equals():
+    assert condition_matches(
+        "allow",
+        {"not_equals": "deny"},
+    ) is True
+
+    assert condition_matches(
+        "deny",
+        {"not_equals": "deny"},
+    ) is False
+
+
+def test_condition_not_in():
+    assert condition_matches(
+        "https",
+        {"not_in": ["telnet", "ftp"]},
+    ) is True
+
+    assert condition_matches(
+        "telnet",
+        {"not_in": ["telnet", "ftp"]},
+    ) is False
+
+
+def test_condition_empty():
+    assert condition_matches(
+        "",
+        {"empty": True},
+    ) is True
+
+    assert condition_matches(
+        "Approved access",
+        {"empty": True},
+    ) is False
+
+
+def test_condition_not_empty():
+    assert condition_matches(
+        "Approved access",
+        {"empty": False},
+    ) is True
+
+    assert condition_matches(
+        "",
+        {"empty": False},
+    ) is False

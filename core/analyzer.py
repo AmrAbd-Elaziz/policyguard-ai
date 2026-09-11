@@ -36,7 +36,16 @@ def condition_matches(value, condition):
             condition["equals"]
         ).lower().strip()
 
-        return value == expected
+        if value != expected:
+            return False
+
+    if "not_equals" in condition:
+        expected = str(
+            condition["not_equals"]
+        ).lower().strip()
+
+        if value == expected:
+            return False
 
     if "in" in condition:
         expected_values = {
@@ -44,9 +53,27 @@ def condition_matches(value, condition):
             for item in condition["in"]
         }
 
-        return value in expected_values
+        if value not in expected_values:
+            return False
 
-    return False
+    if "not_in" in condition:
+        excluded_values = {
+            str(item).lower().strip()
+            for item in condition["not_in"]
+        }
+
+        if value in excluded_values:
+            return False
+
+    if "empty" in condition:
+        expected_empty = condition["empty"]
+
+        is_empty = value == ""
+
+        if is_empty != expected_empty:
+            return False
+
+    return True
 
 def rule_matches_detection(rule, detection):
     conditions = detection.get(
@@ -130,30 +157,6 @@ def analyze_rule(rule):
             )
         )
 
-
-    # PG-005 — Missing security inspection
-    if security_profile == "no" and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "MISSING_SECURITY_PROFILE",
-                "HIGH",
-                "The allow rule does not have a security inspection profile.",
-                "Apply the appropriate security inspection controls.",
-            )
-        )
-
-    # PG-006 — Missing business justification
-    if not justification and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "MISSING_BUSINESS_JUSTIFICATION",
-                "MEDIUM",
-                "No business justification is documented for this allow rule.",
-                "Document the business owner, purpose and required access.",
-            )
-        )
 
     # PG-007 — Test/production mixing
     if environment == "mixed" and action == "allow":

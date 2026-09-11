@@ -25,3 +25,29 @@ detections:
 
       logging:
         equals: "no"
+
+  - id: PG-005
+    name: MISSING_SECURITY_PROFILE
+    severity: HIGH
+    description: Allowed firewall rule does not have a security inspection profile applied.
+    recommendation: Apply the appropriate security inspection controls.
+
+    conditions:
+      action:
+        equals: allow
+
+      security_profile:
+        equals: "no"
+
+  - id: PG-006
+    name: MISSING_BUSINESS_JUSTIFICATION
+    severity: MEDIUM
+    description: Allowed firewall rule does not include documented business justification.
+    recommendation: Document the business owner, purpose and required access.
+
+    conditions:
+      action:
+        equals: allow
+
+      business_justification:
+        empty: true
