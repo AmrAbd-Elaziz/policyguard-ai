@@ -2,6 +2,7 @@ import json
 import pandas as pd
 
 from core.parsers.paloalto import parse_paloalto_csv
+from core.parsers.fortigate import parse_fortigate_config
 
 def normalize_rule(rule):
     return {
@@ -67,6 +68,19 @@ def load_vendor_rules(file_path, vendor):
 
     if vendor == "paloalto":
         return parse_paloalto_csv(file_path)
+
+    raise ValueError(
+        f"Unsupported firewall vendor: {vendor}"
+    )
+
+def load_vendor_rules(file_path, vendor):
+    vendor = vendor.lower().strip()
+
+    if vendor == "paloalto":
+        return parse_paloalto_csv(file_path)
+
+    if vendor == "fortigate":
+        return parse_fortigate_config(file_path)
 
     raise ValueError(
         f"Unsupported firewall vendor: {vendor}"

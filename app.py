@@ -36,7 +36,7 @@ def main():
 
     parser.add_argument(
         "--vendor",
-        choices=["normalized", "paloalto"],
+        choices=["normalized", "paloalto","fortigate",],
         default="normalized",
         help="Firewall vendor/parser type",
     )
@@ -50,14 +50,14 @@ def main():
     # Load firewall rules
     # --------------------------------------------------
 
-    if vendor == "paloalto":
+    if vendor == "normalized":
+        rules = load_firewall_rules(
+            input_file
+        )
+    else:
         rules = load_vendor_rules(
             input_file,
             vendor,
-        )
-    else:
-        rules = load_firewall_rules(
-            input_file
         )
 
     # --------------------------------------------------
@@ -188,7 +188,7 @@ def main():
         f"\n[green]JSON report generated:[/green] "
         f"{report_path}"
     )
-    
+
     html_report_filename = (
         f"{vendor}-policyguard-report.html"
     )
