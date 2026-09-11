@@ -1,3 +1,7 @@
+from pathlib import Path
+
+import yaml
+
 def create_finding(rule, finding_type, severity, description, recommendation):
     return {
         "rule_id": rule["rule_id"],
@@ -7,10 +11,92 @@ def create_finding(rule, finding_type, severity, description, recommendation):
         "recommendation": recommendation,
     }
 
+RULES_FILE = (
+    Path(__file__).resolve().parent.parent
+    / "rules"
+    / "firewall_rules.yaml"
+)
+
+
+def load_detection_rules():
+    with open(
+        RULES_FILE,
+        "r",
+        encoding="utf-8",
+    ) as f:
+        data = yaml.safe_load(f) or {}
+
+    return data.get("detections", [])
+
+def condition_matches(value, condition):
+    value = str(value).lower().strip()
+
+    if "equals" in condition:
+        expected = str(
+            condition["equals"]
+        ).lower().strip()
+
+        return value == expected
+
+    if "in" in condition:
+        expected_values = {
+            str(item).lower().strip()
+            for item in condition["in"]
+        }
+
+        return value in expected_values
+
+    return False
+
+def rule_matches_detection(rule, detection):
+    conditions = detection.get(
+        "conditions",
+        {},
+    )
+
+    for field, condition in conditions.items():
+        value = rule.get(field, "")
+
+        if not condition_matches(
+            value,
+            condition,
+        ):
+            return False
+
+    return True
+
+def analyze_yaml_rules(rule):
+    findings = []
+
+    for detection in load_detection_rules():
+        if not rule_matches_detection(
+            rule,
+            detection,
+        ):
+            continue
+
+        findings.append(
+            {
+                "rule_id": rule["rule_id"],
+                "finding": detection["name"],
+                "severity": detection["severity"],
+                "description": detection.get(
+                    "description",
+                    "",
+                ),
+                "recommendation": detection.get(
+                    "recommendation",
+                    "",
+                ),
+                "detection_id": detection["id"],
+            }
+        )
+
+    return findings
 
 def analyze_rule(rule):
     findings = []
-
+    findings.extend(analyze_yaml_rules(rule))
     source = str(rule["source"]).lower().strip()
     destination = str(rule["destination"]).lower().strip()
     service = str(rule["service"]).lower().strip()
@@ -44,29 +130,6 @@ def analyze_rule(rule):
             )
         )
 
-    # PG-003 — Insecure protocols
-    if service in {"telnet", "ftp"} and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "INSECURE_PROTOCOL",
-                "HIGH",
-                f"The rule permits the insecure or clear-text service '{service}'.",
-                "Use an encrypted alternative or document an approved exception.",
-            )
-        )
-
-    # PG-004 — Missing logging
-    if logging == "no" and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "LOGGING_GAP",
-                "MEDIUM",
-                "Traffic allowed by this rule is not logged.",
-                "Enable appropriate security logging and centralized monitoring.",
-            )
-        )
 
     # PG-005 — Missing security inspection
     if security_profile == "no" and action == "allow":

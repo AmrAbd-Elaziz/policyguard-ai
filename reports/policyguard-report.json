@@ -8,6 +8,25 @@
     "findings": [
         {
             "rule_id": "PA-001",
+            "finding": "LOGGING_GAP",
+            "severity": "MEDIUM",
+            "description": "Allowed firewall rule does not have logging enabled.",
+            "recommendation": "Enable appropriate security logging and centralized monitoring.",
+            "detection_id": "PG-004",
+            "rule_risk_score": 81,
+            "rule_risk_severity": "CRITICAL",
+            "risk_breakdown": [
+                "Broad source +18",
+                "Broad destination +18",
+                "Any service +20",
+                "Missing security profile +10",
+                "Logging disabled +8",
+                "Missing business justification +7"
+            ],
+            "priority": "P1"
+        },
+        {
+            "rule_id": "PA-001",
             "finding": "ANY_ANY_RULE",
             "severity": "CRITICAL",
             "description": "The rule permits traffic from any source to any destination.",
@@ -30,24 +49,6 @@
             "severity": "HIGH",
             "description": "The rule permits access to any destination.",
             "recommendation": "Replace 'any' with explicitly approved destinations.",
-            "rule_risk_score": 81,
-            "rule_risk_severity": "CRITICAL",
-            "risk_breakdown": [
-                "Broad source +18",
-                "Broad destination +18",
-                "Any service +20",
-                "Missing security profile +10",
-                "Logging disabled +8",
-                "Missing business justification +7"
-            ],
-            "priority": "P1"
-        },
-        {
-            "rule_id": "PA-001",
-            "finding": "LOGGING_GAP",
-            "severity": "MEDIUM",
-            "description": "Traffic allowed by this rule is not logged.",
-            "recommendation": "Enable appropriate security logging and centralized monitoring.",
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -262,8 +263,9 @@
             "rule_id": "PA-003",
             "finding": "INSECURE_PROTOCOL",
             "severity": "HIGH",
-            "description": "The rule permits the insecure or clear-text service 'telnet'.",
+            "description": "Insecure clear-text protocol is permitted.",
             "recommendation": "Use an encrypted alternative or document an approved exception.",
+            "detection_id": "PG-003",
             "rule_risk_score": 28,
             "rule_risk_severity": "LOW",
             "risk_breakdown": [

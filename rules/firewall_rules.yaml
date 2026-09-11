@@ -1,0 +1,27 @@
+detections:
+  - id: PG-003
+    name: INSECURE_PROTOCOL
+    severity: HIGH
+    description: Insecure clear-text protocol is permitted.
+    recommendation: Use an encrypted alternative or document an approved exception.
+
+    conditions:
+      action:
+        equals: allow
+
+      service:
+        in:
+          - telnet
+          - ftp
+  - id: PG-004
+    name: LOGGING_GAP
+    severity: MEDIUM
+    description: Allowed firewall rule does not have logging enabled.
+    recommendation: Enable appropriate security logging and centralized monitoring.
+
+    conditions:
+      action:
+        equals: allow
+
+      logging:
+        equals: "no"
