@@ -192,10 +192,54 @@ def parse_fortigate_config(path):
                 current_rule = None
                 continue
 
-            if (
-                current_rule is None
-                or not line.startswith("set ")
-            ):
+            if current_rule is None:
+                continue
+
+            if line.startswith("unset "):
+                parts = shlex.split(line)
+
+                if len(parts) < 2:
+                    continue
+
+                key = parts[1]
+
+                if key in {
+                    "srcaddr",
+                    "dstaddr",
+                    "service",
+                }:
+                    current_rule[key] = []
+                else:
+                    current_rule[key] = ""
+
+                continue
+
+            if line.startswith("append "):
+                parts = shlex.split(line)
+
+                if len(parts) < 3:
+                    continue
+
+                key = parts[1]
+                values = parts[2:]
+
+                if key in {
+                    "srcaddr",
+                    "dstaddr",
+                    "service",
+                }:
+                    current_rule.setdefault(
+                        key,
+                        [],
+                    )
+
+                    current_rule[key].extend(
+                        values
+                    )
+
+                continue
+
+            if not line.startswith("set "):
                 continue
 
             parts = shlex.split(line)
@@ -217,7 +261,7 @@ def parse_fortigate_config(path):
                 current_rule[key] = " ".join(
                     values
                 )
-
+                
     return rules
 
 
