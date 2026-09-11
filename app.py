@@ -3,16 +3,7 @@ import os
 import argparse
 
 from core.reporting import generate_html_report
-from core.parser import (
-    load_firewall_rules,
-    load_vendor_rules,
-)
-from core.analyzer import analyze_rules
-from core.risk import (
-    score_findings,
-    calculate_rule_risk,
-    get_priority,
-)
+from core.service import analyze_policy
 
 from rich.console import Console
 from rich.table import Table
@@ -50,34 +41,13 @@ def main():
     # Load firewall rules
     # --------------------------------------------------
 
-    if vendor == "normalized":
-        rules = load_firewall_rules(
-            input_file
-        )
-    else:
-        rules = load_vendor_rules(
-            input_file,
-            vendor,
-        )
-
-    # --------------------------------------------------
-    # Analyze rules
-    # --------------------------------------------------
-
-    findings = analyze_rules(rules)
-
-    # Calculate contextual risk
-    findings = score_findings(
-        findings,
-        rules,
+    report = analyze_policy(
+        input_file,
+        vendor,
     )
 
-    # Sort findings by rule risk score
-    findings = sorted(
-        findings,
-        key=lambda x: x["rule_risk_score"],
-        reverse=True,
-    )
+    findings = report["findings"]
+    rule_results = report["rules"]
 
     # --------------------------------------------------
     # Header
@@ -89,10 +59,12 @@ def main():
     console.print("Firewall Security Policy Analyzer\n")
 
     console.print(
-        f"Rules analyzed: {len(rules)}"
+        f"Rules analyzed: "
+        f"{report['summary']['rules_analyzed']}"
     )
     console.print(
-        f"Findings detected: {len(findings)}\n"
+        f"Findings detected: "
+        f"{report['summary']['findings_detected']}\n"
     )
 
     # --------------------------------------------------
@@ -122,26 +94,6 @@ def main():
 
     console.print(table)
 
-    # --------------------------------------------------
-    # Build Rule Risk Results
-    # --------------------------------------------------
-
-    rule_results = []
-
-    for rule in rules:
-        risk = calculate_rule_risk(rule)
-
-        rule_results.append(
-            {
-                "rule_id": rule["rule_id"],
-                "risk_score": risk["score"],
-                "severity": risk["severity"],
-                "priority": get_priority(
-                    risk["score"]
-                ),
-                "risk_drivers": risk["breakdown"],
-            }
-        )
 
     # --------------------------------------------------
     # JSON Report
@@ -151,17 +103,6 @@ def main():
         "reports",
         exist_ok=True,
     )
-
-    report = {
-        "summary": {
-            "rules_analyzed": len(rules),
-            "findings_detected": len(findings),
-            "vendor": vendor,
-            "input_file": input_file,
-        },
-        "findings": findings,
-        "rules": rule_results,
-    }
 
     report_filename = (
     f"{vendor}-policyguard-report.json"
