@@ -1,5 +1,6 @@
 pandas
-pyyaml
 pydantic
-rich
 pytest
+pyyaml
+rich
+streamlit
