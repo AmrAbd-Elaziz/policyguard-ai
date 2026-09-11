@@ -15,6 +15,97 @@ REQUIRED_FIELDS = {
     "recommendation",
 }
 
+SUPPORTED_OPERATORS = {
+    "equals",
+    "not_equals",
+    "in",
+    "not_in",
+    "empty",
+}
+
+SUPPORTED_GROUPS = {
+    "all",
+    "any",
+    "count",
+}
+
+def validate_condition_group(group, path="match"):
+    errors = []
+
+    if not isinstance(group, dict):
+        return [
+            f"{path} must be a mapping."
+        ]
+
+    for key, value in group.items():
+        if key in {"all", "any"}:
+            if not isinstance(value, list):
+                errors.append(
+                    f"{path}.{key} must be a list."
+                )
+                continue
+
+            for index, item in enumerate(value):
+                errors.extend(
+                    validate_condition_group(
+                        item,
+                        f"{path}.{key}[{index}]",
+                    )
+                )
+
+            continue
+
+        if key == "count":
+            if not isinstance(value, dict):
+                errors.append(
+                    f"{path}.count must be a mapping."
+                )
+                continue
+
+            if "at_least" not in value:
+                errors.append(
+                    f"{path}.count is missing 'at_least'."
+                )
+
+            if "conditions" not in value:
+                errors.append(
+                    f"{path}.count is missing 'conditions'."
+                )
+
+            conditions = value.get(
+                "conditions",
+                [],
+            )
+
+            if not isinstance(conditions, list):
+                errors.append(
+                    f"{path}.count.conditions must be a list."
+                )
+                continue
+
+            for index, item in enumerate(conditions):
+                errors.extend(
+                    validate_condition_group(
+                        item,
+                        f"{path}.count.conditions[{index}]",
+                    )
+                )
+
+            continue
+
+        if not isinstance(value, dict):
+            errors.append(
+                f"{path}.{key} must define an operator mapping."
+            )
+            continue
+
+        for operator in value:
+            if operator not in SUPPORTED_OPERATORS:
+                errors.append(
+                    f"Unsupported operator '{operator}' at {path}.{key}."
+                )
+
+    return errors
 
 def validate_detection_rule(rule):
     errors = []
@@ -44,6 +135,22 @@ def validate_detection_rule(rule):
             "Detection rule must define either 'conditions' or 'match'."
         )
 
+    if "conditions" in rule:
+        errors.extend(
+            validate_condition_group(
+                rule["conditions"],
+                "conditions",
+            )
+        )
+
+    if "match" in rule:
+        errors.extend(
+            validate_condition_group(
+                rule["match"],
+                "match",
+            )
+        )
+        
     return errors
 
 
