@@ -162,8 +162,13 @@ def main():
         "rules": rule_results,
     }
 
-    report_path = (
-        "reports/policyguard-report.json"
+    report_filename = (
+    f"{vendor}-policyguard-report.json"
+    )
+
+    report_path = os.path.join(
+    "reports",
+    report_filename,
     )
 
     with open(
