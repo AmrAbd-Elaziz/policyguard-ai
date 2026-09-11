@@ -214,7 +214,87 @@ td {
     font-size:
         13px;
 }
+.executive-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(220px, 300px)
+        1fr;
+    gap: 20px;
+}
 
+.overall-risk-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.risk-label {
+    color: #94a3b8;
+    margin-bottom: 14px;
+}
+
+.overall-risk-value {
+    margin-bottom: 14px;
+}
+
+.overall-risk-value .badge {
+    font-size: 16px;
+    padding: 7px 14px;
+}
+
+.overall-risk-score {
+    color: #cbd5e1;
+}
+
+.executive-text {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px;
+    line-height: 1.7;
+    color: #cbd5e1;
+}
+
+@media (max-width: 800px) {
+    .executive-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.info-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(200px, 1fr)
+        );
+    gap: 16px;
+}
+
+.info-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.info-card strong {
+    display: block;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+.methodology-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px;
+    line-height: 1.7;
+}
+
+.methodology-card li {
+    margin-bottom: 12px;
+}
 </style>
 </head>
 
@@ -245,6 +325,54 @@ data/sample_rules.csv
 </div>
 
 
+    <div class="section">
+
+    <h2>Executive Summary</h2>
+
+    <div class="executive-grid">
+
+    <div class="overall-risk-card">
+
+    <div class="risk-label">
+    Overall Risk Rating
+    </div>
+
+    <div class="overall-risk-value">
+    <span class="badge critical">
+    CRITICAL
+    </span>
+    </div>
+
+    <div class="overall-risk-score">
+    Highest Rule Risk Score:
+    <strong>81/100</strong>
+    </div>
+
+    </div>
+
+    <div class="executive-text">
+
+    The assessment analyzed
+    <strong>8</strong>
+    firewall rules and identified
+    <strong>22</strong>
+    security findings.
+
+    The highest observed rule risk was
+    <strong>81/100</strong>,
+    resulting in an overall assessment rating of
+    <strong>CRITICAL</strong>.
+
+    PolicyGuard evaluates firewall policies using
+    deterministic security detections, contextual risk
+    scoring, remediation guidance, and control mapping.
+
+    </div>
+
+    </div>
+
+    </div>
+    
 <div class="summary-grid">
 
 <div class="card">
@@ -291,6 +419,79 @@ Low
 
 </div>
 
+    <div class="section">
+
+    <h2>Assessment Scope</h2>
+
+    <div class="info-grid">
+
+    <div class="info-card">
+    <strong>Firewall Vendor</strong>
+    <div>normalized</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Input Source</strong>
+    <div>data/sample_rules.csv</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Rules Evaluated</strong>
+    <div>8</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Findings Identified</strong>
+    <div>22</div>
+    </div>
+
+    </div>
+
+    </div>
+    
+
+
+    <div class="section">
+
+    <h2>Assessment Methodology</h2>
+
+    <div class="methodology-card">
+
+    <ol>
+    <li>
+    <strong>Policy Normalization:</strong>
+    Firewall policy data is converted into a common internal rule model.
+    </li>
+
+    <li>
+    <strong>Deterministic Security Detection:</strong>
+    Rules are evaluated against PolicyGuard security checks for excessive access,
+    weak protocols, missing controls, and environment separation issues.
+    </li>
+
+    <li>
+    <strong>Contextual Risk Scoring:</strong>
+    Each rule receives a contextual risk score based on exposure,
+    service sensitivity, security controls, logging, and business justification.
+    </li>
+
+    <li>
+    <strong>Prioritization:</strong>
+    Rules are assigned a remediation priority based on their calculated risk.
+    </li>
+
+    <li>
+    <strong>Control Mapping:</strong>
+    Applicable findings are mapped to contextual security control references
+    such as NIST CSF 2.0, CIS Controls, and PCI DSS.
+    </li>
+
+    </ol>
+
+    </div>
+
+    </div>
+    
 
 <div class="section">
 

@@ -332,6 +332,165 @@ def generate_html_report(
             </tr>
             """
         )
+    assessment_scope = f"""
+    <div class="section">
+
+    <h2>Assessment Scope</h2>
+
+    <div class="info-grid">
+
+    <div class="info-card">
+    <strong>Firewall Vendor</strong>
+    <div>{escape(str(vendor))}</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Input Source</strong>
+    <div>{escape(str(input_file))}</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Rules Evaluated</strong>
+    <div>{rules_analyzed}</div>
+    </div>
+
+    <div class="info-card">
+    <strong>Findings Identified</strong>
+    <div>{findings_detected}</div>
+    </div>
+
+    </div>
+
+    </div>
+    """
+
+    assessment_methodology = """
+    <div class="section">
+
+    <h2>Assessment Methodology</h2>
+
+    <div class="methodology-card">
+
+    <ol>
+    <li>
+    <strong>Policy Normalization:</strong>
+    Firewall policy data is converted into a common internal rule model.
+    </li>
+
+    <li>
+    <strong>Deterministic Security Detection:</strong>
+    Rules are evaluated against PolicyGuard security checks for excessive access,
+    weak protocols, missing controls, and environment separation issues.
+    </li>
+
+    <li>
+    <strong>Contextual Risk Scoring:</strong>
+    Each rule receives a contextual risk score based on exposure,
+    service sensitivity, security controls, logging, and business justification.
+    </li>
+
+    <li>
+    <strong>Prioritization:</strong>
+    Rules are assigned a remediation priority based on their calculated risk.
+    </li>
+
+    <li>
+    <strong>Control Mapping:</strong>
+    Applicable findings are mapped to contextual security control references
+    such as NIST CSF 2.0, CIS Controls, and PCI DSS.
+    </li>
+
+    </ol>
+
+    </div>
+
+    </div>
+    """
+    def unique_controls(key):
+        controls = set()
+
+        for finding in findings:
+            mappings = finding.get(
+                "control_mappings",
+                {},
+            )
+
+            for control in mappings.get(key, []):
+                controls.add(str(control))
+
+        return sorted(controls)
+
+
+    nist_controls = unique_controls(
+        "nist_csf_2_0"
+    )
+
+    cis_controls = unique_controls(
+        "cis_controls_8_1"
+    )
+
+    pci_controls = unique_controls(
+        "pci_dss_4"
+    )
+
+    def render_controls(controls):
+        if not controls:
+            return (
+                '<span class="muted">'
+                'No contextual references identified'
+                '</span>'
+            )
+
+        return "".join(
+            f'<span class="control-tag">'
+            f'{escape(control)}'
+            f'</span>'
+            for control in controls
+        )
+
+
+    framework_coverage = f"""
+    <div class="section">
+
+    <h2>Framework Coverage</h2>
+
+    <p class="section-description">
+    Contextual control references associated with findings
+    identified during this assessment.
+    </p>
+
+    <div class="framework-grid">
+
+    <div class="framework-card">
+    <h3>NIST CSF 2.0</h3>
+    <div class="control-tags">
+    {render_controls(nist_controls)}
+    </div>
+    </div>
+
+    <div class="framework-card">
+    <h3>CIS Controls</h3>
+    <div class="control-tags">
+    {render_controls(cis_controls)}
+    </div>
+    </div>
+
+    <div class="framework-card">
+    <h3>PCI DSS</h3>
+    <div class="control-tags">
+    {render_controls(pci_controls)}
+    </div>
+    </div>
+
+    </div>
+
+    <div class="mapping-note">
+    These mappings provide contextual security references only
+    and do not constitute a compliance determination.
+    </div>
+
+    </div>
+    """
     executive_summary = f"""
     <div class="section">
 
@@ -644,6 +803,96 @@ td {{
         grid-template-columns: 1fr;
     }}
 }}
+.info-grid {{
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(200px, 1fr)
+        );
+    gap: 16px;
+}}
+
+.info-card {{
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 18px;
+}}
+
+.info-card strong {{
+    display: block;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}}
+
+.methodology-card {{
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px;
+    line-height: 1.7;
+}}
+
+.methodology-card li {{
+    margin-bottom: 12px;
+}}
+.section-description {{
+    color: #94a3b8;
+    margin-bottom: 18px;
+}}
+
+.framework-grid {{
+    display: grid;
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+    gap: 16px;
+}}
+
+.framework-card {{
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 20px;
+}}
+
+.framework-card h3 {{
+    margin-top: 0;
+    margin-bottom: 16px;
+}}
+
+.control-tags {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}}
+
+.control-tag {{
+    background: #172033;
+    border: 1px solid #334155;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+}}
+
+.mapping-note {{
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 14px;
+}}
+
+.muted {{
+    color: #64748b;
+}}
+
+@media (max-width: 800px) {{
+    .framework-grid {{
+        grid-template-columns: 1fr;
+    }}
+}}
 </style>
 </head>
 
@@ -719,6 +968,11 @@ Low
 </div>
 
 </div>
+{assessment_scope}
+
+{assessment_methodology}
+
+{framework_coverage}
 
 <div class="section">
 
