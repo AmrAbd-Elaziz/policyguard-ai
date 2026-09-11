@@ -80,6 +80,36 @@ def _render_control_mappings(mappings):
 
     return "<br>".join(parts)
 
+def _unique_controls(findings, key):
+    controls = set()
+
+    for finding in findings:
+        mappings = finding.get(
+            "control_mappings",
+            {},
+        )
+
+        for control in mappings.get(key, []):
+            controls.add(str(control))
+
+    return sorted(controls)
+
+
+def _render_controls(controls):
+    if not controls:
+        return (
+            '<span class="muted">'
+            'No contextual references identified'
+            '</span>'
+        )
+
+    return "".join(
+        f'<span class="control-tag">'
+        f'{escape(control)}'
+        f'</span>'
+        for control in controls
+    )
+
 def calculate_overall_risk(rule_results):
     scores = [
         int(rule.get("risk_score", 0))
@@ -406,48 +436,21 @@ def generate_html_report(
 
     </div>
     """
-    def unique_controls(key):
-        controls = set()
 
-        for finding in findings:
-            mappings = finding.get(
-                "control_mappings",
-                {},
-            )
-
-            for control in mappings.get(key, []):
-                controls.add(str(control))
-
-        return sorted(controls)
-
-
-    nist_controls = unique_controls(
-        "nist_csf_2_0"
+    nist_controls = _unique_controls(
+        findings,
+        "nist_csf_2_0",
     )
 
-    cis_controls = unique_controls(
-        "cis_controls_8_1"
+    cis_controls = _unique_controls(
+        findings,
+        "cis_controls_8_1",
     )
 
-    pci_controls = unique_controls(
-        "pci_dss_4"
+    pci_controls = _unique_controls(
+        findings,
+        "pci_dss_4",
     )
-
-    def render_controls(controls):
-        if not controls:
-            return (
-                '<span class="muted">'
-                'No contextual references identified'
-                '</span>'
-            )
-
-        return "".join(
-            f'<span class="control-tag">'
-            f'{escape(control)}'
-            f'</span>'
-            for control in controls
-        )
-
 
     framework_coverage = f"""
     <div class="section">
@@ -464,21 +467,21 @@ def generate_html_report(
     <div class="framework-card">
     <h3>NIST CSF 2.0</h3>
     <div class="control-tags">
-    {render_controls(nist_controls)}
+    {_render_controls(nist_controls)}
     </div>
     </div>
 
     <div class="framework-card">
     <h3>CIS Controls</h3>
     <div class="control-tags">
-    {render_controls(cis_controls)}
+    {_render_controls(cis_controls)}
     </div>
     </div>
 
     <div class="framework-card">
     <h3>PCI DSS</h3>
     <div class="control-tags">
-    {render_controls(pci_controls)}
+    {_render_controls(pci_controls)}
     </div>
     </div>
 
