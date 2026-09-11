@@ -4,6 +4,13 @@ from core.analyzer import (
     analyze_yaml_rules,
 )
 
+from core.analyzer import (
+    load_detection_rules,
+    rule_matches_detection,
+    analyze_yaml_rules,
+    evaluate_condition_group,
+)
+
 
 def base_rule():
     return {
@@ -301,3 +308,25 @@ def test_scoped_database_service_not_exposed():
     }
 
     assert "DB_EXPOSURE" not in names
+
+def test_count_condition_group():
+    rule = base_rule()
+    rule["source"] = "any"
+    rule["destination"] = "any"
+
+    group = {
+        "count": {
+            "at_least": 2,
+            "conditions": [
+                {"source": {"equals": "any"}},
+                {"destination": {"equals": "any"}},
+                {"service": {"equals": "any"}},
+                {"environment": {"equals": "mixed"}},
+            ],
+        }
+    }
+
+    assert evaluate_condition_group(
+        rule,
+        group,
+    ) is True

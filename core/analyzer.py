@@ -23,6 +23,8 @@ CONTROL_MAPPINGS_FILE = (
     / "rules"
     / "control_mappings.yaml"
 )
+
+
 @lru_cache(maxsize=1)
 def load_control_mappings():
     with open(
@@ -46,6 +48,8 @@ def get_control_mapping(finding_name):
             "pci_dss_4": [],
         },
     )
+
+
 @lru_cache(maxsize=1)
 def load_detection_rules():
     with open(
@@ -164,93 +168,7 @@ def analyze_rule(rule):
     justification = str(rule["business_justification"]).strip()
     environment = str(rule["environment"]).lower().strip()
 
-    # PG-001 — Any-to-Any
-    if source == "any" and destination == "any" and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "ANY_ANY_RULE",
-                "CRITICAL",
-                "The rule permits traffic from any source to any destination.",
-                "Restrict the source and destination to approved systems or networks.",
-            )
-        )
 
-    # PG-002 — Broad destination
-    if destination == "any" and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "BROAD_DESTINATION",
-                "HIGH",
-                "The rule permits access to any destination.",
-                "Replace 'any' with explicitly approved destinations.",
-            )
-        )
-
-
-    # PG-007 — Test/production mixing
-    if environment == "mixed" and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "TEST_PROD_MIXING",
-                "HIGH",
-                "The rule mixes test and production environments.",
-                "Separate test and production access using dedicated rules and zones.",
-            )
-        )
-
-    # PG-008 — Any service
-    if service == "any" and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "ANY_SERVICE",
-                "HIGH",
-                "The rule permits any service or port.",
-                "Restrict the rule to explicitly required applications and ports.",
-            )
-        )
-
-    # PG-009 — Broad source
-    if source == "any" and action == "allow":
-        findings.append(
-            create_finding(
-                rule,
-                "BROAD_SOURCE",
-                "HIGH",
-                "The rule permits traffic from any source.",
-                "Restrict the source to approved hosts, subnets, or management networks.",
-            )
-        )
-
-
-    # PG-012 — Rule should be split
-    split_conditions = 0
-
-    if service == "any":
-        split_conditions += 1
-
-    if source == "any":
-        split_conditions += 1
-
-    if destination == "any":
-        split_conditions += 1
-
-    if environment == "mixed":
-        split_conditions += 1
-
-    if action == "allow" and split_conditions >= 2:
-        findings.append(
-            create_finding(
-                rule,
-                "RULE_NEEDS_SPLITTING",
-                "MEDIUM",
-                "The rule combines multiple broad access conditions and should be separated into more specific rules.",
-                "Split the rule by source, destination, service, or environment to enforce least privilege.",
-            )
-        )
 
     return attach_control_mappings(findings)
 
@@ -295,6 +213,30 @@ def evaluate_condition_group(rule, group):
             evaluate_condition_group(rule, item)
             for item in group["any"]
         )
+
+    if "count" in group:
+        count_config = group["count"]
+
+        conditions = count_config.get(
+            "conditions",
+            [],
+        )
+
+        at_least = int(
+            count_config.get(
+                "at_least",
+                1,
+            )
+        )
+
+        matched = sum(
+            1
+            for item in conditions
+            if evaluate_condition_group(rule, item)
+        )
+
+        return matched >= at_least
+        
 
     for field, condition in group.items():
         value = rule.get(field, "")

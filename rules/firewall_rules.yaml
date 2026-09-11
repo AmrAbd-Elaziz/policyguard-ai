@@ -1,4 +1,27 @@
 detections:
+  - id: PG-001
+    name: ANY_ANY_RULE
+    severity: CRITICAL
+    description: Firewall rule permits unrestricted any-to-any access.
+    recommendation: Restrict the source and destination to approved systems or networks.
+    conditions:
+      action:
+        equals: allow
+      source:
+        equals: any
+      destination:
+        equals: any
+
+  - id: PG-002
+    name: BROAD_DESTINATION
+    severity: HIGH
+    description: Firewall rule permits access to any destination.
+    recommendation: Replace 'any' with explicitly approved destinations.
+    conditions:
+      action:
+        equals: allow
+      destination:
+        equals: any
 
   - id: PG-003
     name: INSECURE_PROTOCOL
@@ -45,6 +68,39 @@ detections:
         equals: allow
       business_justification:
         empty: true
+
+  - id: PG-007
+    name: TEST_PROD_MIXING
+    severity: HIGH
+    description: The rule mixes test and production environments.
+    recommendation: Separate test and production access using dedicated rules and zones.
+    conditions:
+      action:
+        equals: allow
+      environment:
+        equals: mixed
+
+  - id: PG-008
+    name: ANY_SERVICE
+    severity: HIGH
+    description: The rule permits any service or port.
+    recommendation: Restrict the rule to explicitly required applications and ports.
+    conditions:
+      action:
+        equals: allow
+      service:
+        equals: any
+
+  - id: PG-009
+    name: BROAD_SOURCE
+    severity: HIGH
+    description: The rule permits traffic from any source.
+    recommendation: Restrict the source to approved hosts, subnets, or management networks.
+    conditions:
+      action:
+        equals: allow
+      source:
+        equals: any    
 
   - id: PG-010
     name: ADMIN_SERVICE_EXPOSURE
@@ -93,3 +149,24 @@ detections:
                 equals: any
             - environment:
                 equals: mixed
+
+  - id: PG-012
+    name: RULE_NEEDS_SPLITTING
+    severity: MEDIUM
+    description: The rule combines multiple broad access conditions and should be separated into more specific rules.
+    recommendation: Split the rule by source, destination, service, or environment to enforce least privilege.
+    match:
+      all:
+        - action:
+            equals: allow
+        - count:
+            at_least: 2
+            conditions:
+              - service:
+                  equals: any
+              - source:
+                  equals: any
+              - destination:
+                  equals: any
+              - environment:
+                  equals: mixed
