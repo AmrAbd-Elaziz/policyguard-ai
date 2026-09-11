@@ -139,3 +139,133 @@ def test_condition_not_empty():
         "",
         {"empty": False},
     ) is False
+
+def test_all_condition_group():
+    rule = base_rule()
+
+    detection = {
+        "match": {
+            "all": [
+                {
+                    "action": {
+                        "equals": "allow"
+                    }
+                },
+                {
+                    "service": {
+                        "equals": "https"
+                    }
+                },
+            ]
+        }
+    }
+
+    assert rule_matches_detection(
+        rule,
+        detection,
+    ) is True
+
+
+def test_any_condition_group():
+    rule = base_rule()
+    rule["service"] = "ssh"
+
+    detection = {
+        "match": {
+            "any": [
+                {
+                    "service": {
+                        "equals": "ssh"
+                    }
+                },
+                {
+                    "service": {
+                        "equals": "rdp"
+                    }
+                },
+            ]
+        }
+    }
+
+    assert rule_matches_detection(
+        rule,
+        detection,
+    ) is True
+
+
+def test_nested_all_any_condition():
+    rule = base_rule()
+    rule["service"] = "ssh"
+    rule["destination"] = "any"
+
+    detection = {
+        "match": {
+            "all": [
+                {
+                    "action": {
+                        "equals": "allow"
+                    }
+                },
+                {
+                    "service": {
+                        "in": [
+                            "ssh",
+                            "rdp",
+                            "telnet",
+                            "winrm",
+                        ]
+                    }
+                },
+                {
+                    "any": [
+                        {
+                            "source": {
+                                "equals": "any"
+                            }
+                        },
+                        {
+                            "destination": {
+                                "equals": "any"
+                            }
+                        },
+                    ]
+                },
+            ]
+        }
+    }
+
+    assert rule_matches_detection(
+        rule,
+        detection,
+    ) is True
+
+def test_yaml_admin_service_exposure():
+    rule = base_rule()
+
+    rule["service"] = "ssh"
+    rule["destination"] = "any"
+
+    findings = analyze_yaml_rules(rule)
+
+    names = {
+        finding["finding"]
+        for finding in findings
+    }
+
+    assert "ADMIN_SERVICE_EXPOSURE" in names
+
+def test_scoped_admin_service_not_exposed():
+    rule = base_rule()
+
+    rule["service"] = "ssh"
+    rule["source"] = "management-network"
+    rule["destination"] = "application-server"
+
+    findings = analyze_yaml_rules(rule)
+
+    names = {
+        finding["finding"]
+        for finding in findings
+    }
+
+    assert "ADMIN_SERVICE_EXPOSURE" not in names

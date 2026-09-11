@@ -51,3 +51,28 @@ detections:
 
       business_justification:
         empty: true
+
+  - id: PG-010
+    name: ADMIN_SERVICE_EXPOSURE
+    severity: HIGH
+    description: Administrative service is exposed through a broadly scoped firewall rule.
+    recommendation: Restrict administrative access to approved management hosts, jump servers, or dedicated management networks.
+
+    match:
+      all:
+        - action:
+            equals: allow
+
+        - service:
+            in:
+              - ssh
+              - rdp
+              - telnet
+              - winrm
+
+        - any:
+            - source:
+                equals: any
+
+            - destination:
+                equals: any

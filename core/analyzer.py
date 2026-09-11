@@ -76,21 +76,23 @@ def condition_matches(value, condition):
     return True
 
 def rule_matches_detection(rule, detection):
+    # New nested DSL
+    if "match" in detection:
+        return evaluate_condition_group(
+            rule,
+            detection["match"],
+        )
+
+    # Backward compatibility
     conditions = detection.get(
         "conditions",
         {},
     )
 
-    for field, condition in conditions.items():
-        value = rule.get(field, "")
-
-        if not condition_matches(
-            value,
-            condition,
-        ):
-            return False
-
-    return True
+    return evaluate_condition_group(
+        rule,
+        conditions,
+    )
 
 def analyze_yaml_rules(rule):
     findings = []
@@ -194,32 +196,6 @@ def analyze_rule(rule):
             )
         )
 
-    # PG-010 — Administrative service exposure
-    admin_services = {
-        "ssh",
-        "rdp",
-        "telnet",
-        "winrm",
-    }
-
-    if (
-        service in admin_services
-        and action == "allow"
-        and (
-            source == "any"
-            or destination == "any"
-        )
-    ):
-        findings.append(
-            create_finding(
-                rule,
-                "ADMIN_SERVICE_EXPOSURE",
-                "HIGH",
-                f"Administrative service '{service}' is exposed with a broad source or destination.",
-                "Restrict administrative access to approved jump hosts or management networks.",
-            )
-        )
-
     # PG-011 — Database exposure
     database_services = {
         "1433",
@@ -285,3 +261,37 @@ def analyze_rules(rules):
         )
 
     return findings
+
+def evaluate_condition_group(rule, group):
+    """
+    Evaluate nested YAML condition groups.
+
+    Supported:
+    - all: every condition must match
+    - any: at least one condition must match
+    - field conditions using equals, not_equals,
+      in, not_in, and empty
+    """
+
+    if "all" in group:
+        return all(
+            evaluate_condition_group(rule, item)
+            for item in group["all"]
+        )
+
+    if "any" in group:
+        return any(
+            evaluate_condition_group(rule, item)
+            for item in group["any"]
+        )
+
+    for field, condition in group.items():
+        value = rule.get(field, "")
+
+        if not condition_matches(
+            value,
+            condition,
+        ):
+            return False
+
+    return True
