@@ -269,3 +269,35 @@ def test_scoped_admin_service_not_exposed():
     }
 
     assert "ADMIN_SERVICE_EXPOSURE" not in names
+def test_yaml_database_exposure():
+    rule = base_rule()
+
+    rule["service"] = "1433"
+    rule["environment"] = "mixed"
+
+    findings = analyze_yaml_rules(rule)
+
+    names = {
+        finding["finding"]
+        for finding in findings
+    }
+
+    assert "DB_EXPOSURE" in names
+
+
+def test_scoped_database_service_not_exposed():
+    rule = base_rule()
+
+    rule["service"] = "1433"
+    rule["source"] = "application-server"
+    rule["destination"] = "database-server"
+    rule["environment"] = "production"
+
+    findings = analyze_yaml_rules(rule)
+
+    names = {
+        finding["finding"]
+        for finding in findings
+    }
+
+    assert "DB_EXPOSURE" not in names

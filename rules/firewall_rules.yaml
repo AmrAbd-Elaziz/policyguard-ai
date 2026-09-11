@@ -76,3 +76,30 @@ detections:
 
             - destination:
                 equals: any
+  - id: PG-011
+    name: DB_EXPOSURE
+    severity: HIGH
+    description: Database service is exposed through a broad rule or across mixed environments.
+    recommendation: Restrict database access to approved application hosts and dedicated zones.
+
+    match:
+      all:
+        - action:
+            equals: allow
+
+        - service:
+            in:
+              - "1433"
+              - "3306"
+              - "5432"
+              - "1521"
+
+        - any:
+            - source:
+                equals: any
+
+            - destination:
+                equals: any
+
+            - environment:
+                equals: mixed

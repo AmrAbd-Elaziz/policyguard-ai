@@ -172,10 +172,11 @@
         },
         {
             "rule_id": "PA-004",
-            "finding": "TEST_PROD_MIXING",
+            "finding": "DB_EXPOSURE",
             "severity": "HIGH",
-            "description": "The rule mixes test and production environments.",
-            "recommendation": "Separate test and production access using dedicated rules and zones.",
+            "description": "Database service is exposed through a broad rule or across mixed environments.",
+            "recommendation": "Restrict database access to approved application hosts and dedicated zones.",
+            "detection_id": "PG-011",
             "rule_risk_score": 49,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -188,10 +189,10 @@
         },
         {
             "rule_id": "PA-004",
-            "finding": "DB_EXPOSURE",
+            "finding": "TEST_PROD_MIXING",
             "severity": "HIGH",
-            "description": "Database service '1433' is exposed across a broad or mixed environment.",
-            "recommendation": "Restrict database access to approved application hosts and dedicated zones.",
+            "description": "The rule mixes test and production environments.",
+            "recommendation": "Separate test and production access using dedicated rules and zones.",
             "rule_risk_score": 49,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [

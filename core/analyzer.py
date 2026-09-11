@@ -196,32 +196,6 @@ def analyze_rule(rule):
             )
         )
 
-    # PG-011 — Database exposure
-    database_services = {
-        "1433",
-        "3306",
-        "5432",
-        "1521",
-    }
-
-    if (
-        service in database_services
-        and action == "allow"
-        and (
-            source == "any"
-            or destination == "any"
-            or environment == "mixed"
-        )
-    ):
-        findings.append(
-            create_finding(
-                rule,
-                "DB_EXPOSURE",
-                "HIGH",
-                f"Database service '{service}' is exposed across a broad or mixed environment.",
-                "Restrict database access to approved application hosts and dedicated zones.",
-            )
-        )
 
     # PG-012 — Rule should be split
     split_conditions = 0
