@@ -1,4 +1,5 @@
 from pathlib import Path
+from functools import lru_cache
 
 import yaml
 
@@ -22,6 +23,7 @@ CONTROL_MAPPINGS_FILE = (
     / "rules"
     / "control_mappings.yaml"
 )
+@lru_cache(maxsize=1)
 def load_control_mappings():
     with open(
         CONTROL_MAPPINGS_FILE,
@@ -44,7 +46,7 @@ def get_control_mapping(finding_name):
             "pci_dss_4": [],
         },
     )
-
+@lru_cache(maxsize=1)
 def load_detection_rules():
     with open(
         RULES_FILE,
@@ -145,14 +147,11 @@ def analyze_yaml_rules(rule):
                     "",
                 ),
                 "detection_id": detection["id"],
-                "control_mappings": get_control_mapping(
-                    finding_name
-                ),
             }
         )
 
     return findings
-    
+
 def analyze_rule(rule):
     findings = []
     findings.extend(analyze_yaml_rules(rule))
