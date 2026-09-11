@@ -264,14 +264,13 @@
             "severity": "HIGH",
             "description": "The rule permits the insecure or clear-text service 'telnet'.",
             "recommendation": "Use an encrypted alternative or document an approved exception.",
-            "rule_risk_score": 43,
-            "rule_risk_severity": "MEDIUM",
+            "rule_risk_score": 28,
+            "rule_risk_severity": "LOW",
             "risk_breakdown": [
-                "Administrative service +15",
                 "Insecure protocol +18",
                 "Missing security profile +10"
             ],
-            "priority": "P3"
+            "priority": "P4"
         },
         {
             "rule_id": "PA-003",
@@ -279,14 +278,13 @@
             "severity": "HIGH",
             "description": "The allow rule does not have a security inspection profile.",
             "recommendation": "Apply the appropriate security inspection controls.",
-            "rule_risk_score": 43,
-            "rule_risk_severity": "MEDIUM",
+            "rule_risk_score": 28,
+            "rule_risk_severity": "LOW",
             "risk_breakdown": [
-                "Administrative service +15",
                 "Insecure protocol +18",
                 "Missing security profile +10"
             ],
-            "priority": "P3"
+            "priority": "P4"
         }
     ],
     "rules": [
@@ -306,20 +304,17 @@
         },
         {
             "rule_id": "PA-002",
-            "risk_score": 15,
-            "severity": "LOW",
-            "priority": "P4",
-            "risk_drivers": [
-                "Administrative service +15"
-            ]
+            "risk_score": 0,
+            "severity": "INFO",
+            "priority": "P5",
+            "risk_drivers": []
         },
         {
             "rule_id": "PA-003",
-            "risk_score": 43,
-            "severity": "MEDIUM",
-            "priority": "P3",
+            "risk_score": 28,
+            "severity": "LOW",
+            "priority": "P4",
             "risk_drivers": [
-                "Administrative service +15",
                 "Insecure protocol +18",
                 "Missing security profile +10"
             ]

@@ -61,9 +61,17 @@ def calculate_rule_risk(rule):
         breakdown.append("Any service +20")
 
     # Administrative access
-    if service in ADMIN_SERVICES:
-        score += 15
-        breakdown.append("Administrative service +15")
+    if (
+        service in ADMIN_SERVICES
+        and (
+            source == "any"
+            or destination == "any"
+        )
+    ):
+        score += 20
+        breakdown.append(
+            "Broad administrative service exposure +20"
+        )
 
     if (
         service in ADMIN_SERVICES
