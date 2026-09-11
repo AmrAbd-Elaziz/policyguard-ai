@@ -17,6 +17,33 @@ RULES_FILE = (
     / "firewall_rules.yaml"
 )
 
+CONTROL_MAPPINGS_FILE = (
+    Path(__file__).resolve().parent.parent
+    / "rules"
+    / "control_mappings.yaml"
+)
+def load_control_mappings():
+    with open(
+        CONTROL_MAPPINGS_FILE,
+        "r",
+        encoding="utf-8",
+    ) as f:
+        data = yaml.safe_load(f) or {}
+
+    return data.get("mappings", {})
+
+def get_control_mapping(finding_name):
+    mappings = load_control_mappings()
+
+    return mappings.get(
+        finding_name,
+        {
+            "principles": [],
+            "nist_csf_2_0": [],
+            "cis_controls_8_1": [],
+            "pci_dss_4": [],
+        },
+    )
 
 def load_detection_rules():
     with open(
@@ -76,14 +103,12 @@ def condition_matches(value, condition):
     return True
 
 def rule_matches_detection(rule, detection):
-    # New nested DSL
     if "match" in detection:
         return evaluate_condition_group(
             rule,
             detection["match"],
         )
 
-    # Backward compatibility
     conditions = detection.get(
         "conditions",
         {},
@@ -104,10 +129,12 @@ def analyze_yaml_rules(rule):
         ):
             continue
 
+        finding_name = detection["name"]
+
         findings.append(
             {
                 "rule_id": rule["rule_id"],
-                "finding": detection["name"],
+                "finding": finding_name,
                 "severity": detection["severity"],
                 "description": detection.get(
                     "description",
@@ -118,11 +145,14 @@ def analyze_yaml_rules(rule):
                     "",
                 ),
                 "detection_id": detection["id"],
+                "control_mappings": get_control_mapping(
+                    finding_name
+                ),
             }
         )
 
     return findings
-
+    
 def analyze_rule(rule):
     findings = []
     findings.extend(analyze_yaml_rules(rule))
@@ -223,8 +253,17 @@ def analyze_rule(rule):
             )
         )
 
-    return findings
+    return attach_control_mappings(findings)
 
+def attach_control_mappings(findings):
+    for finding in findings:
+        finding["control_mappings"] = (
+            get_control_mapping(
+                finding["finding"]
+            )
+        )
+
+    return findings
 
 def analyze_rules(rules):
     findings = []
@@ -238,13 +277,12 @@ def analyze_rules(rules):
 
 def evaluate_condition_group(rule, group):
     """
-    Evaluate nested YAML condition groups.
+    Recursively evaluate YAML detection logic.
 
     Supported:
-    - all: every condition must match
-    - any: at least one condition must match
-    - field conditions using equals, not_equals,
-      in, not_in, and empty
+    - all
+    - any
+    - field conditions
     """
 
     if "all" in group:

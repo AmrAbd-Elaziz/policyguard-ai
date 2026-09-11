@@ -1,28 +1,26 @@
 detections:
+
   - id: PG-003
     name: INSECURE_PROTOCOL
     severity: HIGH
     description: Insecure clear-text protocol is permitted.
     recommendation: Use an encrypted alternative or document an approved exception.
-
     conditions:
       action:
         equals: allow
-
       service:
         in:
           - telnet
           - ftp
+
   - id: PG-004
     name: LOGGING_GAP
     severity: MEDIUM
     description: Allowed firewall rule does not have logging enabled.
     recommendation: Enable appropriate security logging and centralized monitoring.
-
     conditions:
       action:
         equals: allow
-
       logging:
         equals: "no"
 
@@ -31,11 +29,9 @@ detections:
     severity: HIGH
     description: Allowed firewall rule does not have a security inspection profile applied.
     recommendation: Apply the appropriate security inspection controls.
-
     conditions:
       action:
         equals: allow
-
       security_profile:
         equals: "no"
 
@@ -44,11 +40,9 @@ detections:
     severity: MEDIUM
     description: Allowed firewall rule does not include documented business justification.
     recommendation: Document the business owner, purpose and required access.
-
     conditions:
       action:
         equals: allow
-
       business_justification:
         empty: true
 
@@ -57,7 +51,6 @@ detections:
     severity: HIGH
     description: Administrative service is exposed through a broadly scoped firewall rule.
     recommendation: Restrict administrative access to approved management hosts, jump servers, or dedicated management networks.
-
     match:
       all:
         - action:
@@ -73,15 +66,14 @@ detections:
         - any:
             - source:
                 equals: any
-
             - destination:
                 equals: any
+
   - id: PG-011
     name: DB_EXPOSURE
     severity: HIGH
     description: Database service is exposed through a broad rule or across mixed environments.
     recommendation: Restrict database access to approved application hosts and dedicated zones.
-
     match:
       all:
         - action:
@@ -97,9 +89,7 @@ detections:
         - any:
             - source:
                 equals: any
-
             - destination:
                 equals: any
-
             - environment:
                 equals: mixed

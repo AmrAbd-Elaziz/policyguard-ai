@@ -13,6 +13,18 @@
             "description": "Allowed firewall rule does not have logging enabled.",
             "recommendation": "Enable appropriate security logging and centralized monitoring.",
             "detection_id": "PG-004",
+            "control_mappings": {
+                "principles": [
+                    "Security Monitoring"
+                ],
+                "nist_csf_2_0": [
+                    "PR.PS-04"
+                ],
+                "cis_controls_8_1": [
+                    "13.6"
+                ],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -32,6 +44,12 @@
             "description": "Allowed firewall rule does not have a security inspection profile applied.",
             "recommendation": "Apply the appropriate security inspection controls.",
             "detection_id": "PG-005",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -51,6 +69,12 @@
             "description": "Allowed firewall rule does not include documented business justification.",
             "recommendation": "Document the business owner, purpose and required access.",
             "detection_id": "PG-006",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -69,6 +93,24 @@
             "severity": "CRITICAL",
             "description": "The rule permits traffic from any source to any destination.",
             "recommendation": "Restrict the source and destination to approved systems or networks.",
+            "control_mappings": {
+                "principles": [
+                    "Least Privilege",
+                    "Network Segmentation"
+                ],
+                "nist_csf_2_0": [
+                    "PR.AA-05",
+                    "PR.IR-01"
+                ],
+                "cis_controls_8_1": [
+                    "12.2",
+                    "13.4"
+                ],
+                "pci_dss_4": [
+                    "1.3.1",
+                    "1.3.2"
+                ]
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -87,6 +129,24 @@
             "severity": "HIGH",
             "description": "The rule permits access to any destination.",
             "recommendation": "Replace 'any' with explicitly approved destinations.",
+            "control_mappings": {
+                "principles": [
+                    "Least Privilege",
+                    "Network Segmentation"
+                ],
+                "nist_csf_2_0": [
+                    "PR.AA-05",
+                    "PR.IR-01"
+                ],
+                "cis_controls_8_1": [
+                    "12.2",
+                    "13.4"
+                ],
+                "pci_dss_4": [
+                    "1.3.1",
+                    "1.3.2"
+                ]
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -105,6 +165,12 @@
             "severity": "HIGH",
             "description": "The rule permits any service or port.",
             "recommendation": "Restrict the rule to explicitly required applications and ports.",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -123,6 +189,23 @@
             "severity": "HIGH",
             "description": "The rule permits traffic from any source.",
             "recommendation": "Restrict the source to approved hosts, subnets, or management networks.",
+            "control_mappings": {
+                "principles": [
+                    "Least Privilege",
+                    "Network Segmentation"
+                ],
+                "nist_csf_2_0": [
+                    "PR.AA-05",
+                    "PR.IR-01"
+                ],
+                "cis_controls_8_1": [
+                    "12.2",
+                    "13.4"
+                ],
+                "pci_dss_4": [
+                    "1.3.1"
+                ]
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -141,6 +224,12 @@
             "severity": "MEDIUM",
             "description": "The rule combines multiple broad access conditions and should be separated into more specific rules.",
             "recommendation": "Split the rule by source, destination, service, or environment to enforce least privilege.",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 81,
             "rule_risk_severity": "CRITICAL",
             "risk_breakdown": [
@@ -160,6 +249,12 @@
             "description": "Allowed firewall rule does not include documented business justification.",
             "recommendation": "Document the business owner, purpose and required access.",
             "detection_id": "PG-006",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 49,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -177,6 +272,12 @@
             "description": "Database service is exposed through a broad rule or across mixed environments.",
             "recommendation": "Restrict database access to approved application hosts and dedicated zones.",
             "detection_id": "PG-011",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 49,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -193,6 +294,12 @@
             "severity": "HIGH",
             "description": "The rule mixes test and production environments.",
             "recommendation": "Separate test and production access using dedicated rules and zones.",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 49,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -210,6 +317,12 @@
             "description": "Allowed firewall rule does not have a security inspection profile applied.",
             "recommendation": "Apply the appropriate security inspection controls.",
             "detection_id": "PG-005",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 48,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -225,6 +338,24 @@
             "severity": "HIGH",
             "description": "The rule permits access to any destination.",
             "recommendation": "Replace 'any' with explicitly approved destinations.",
+            "control_mappings": {
+                "principles": [
+                    "Least Privilege",
+                    "Network Segmentation"
+                ],
+                "nist_csf_2_0": [
+                    "PR.AA-05",
+                    "PR.IR-01"
+                ],
+                "cis_controls_8_1": [
+                    "12.2",
+                    "13.4"
+                ],
+                "pci_dss_4": [
+                    "1.3.1",
+                    "1.3.2"
+                ]
+            },
             "rule_risk_score": 48,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -240,6 +371,12 @@
             "severity": "HIGH",
             "description": "The rule permits any service or port.",
             "recommendation": "Restrict the rule to explicitly required applications and ports.",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 48,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -255,6 +392,12 @@
             "severity": "MEDIUM",
             "description": "The rule combines multiple broad access conditions and should be separated into more specific rules.",
             "recommendation": "Split the rule by source, destination, service, or environment to enforce least privilege.",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 48,
             "rule_risk_severity": "MEDIUM",
             "risk_breakdown": [
@@ -271,6 +414,19 @@
             "description": "Insecure clear-text protocol is permitted.",
             "recommendation": "Use an encrypted alternative or document an approved exception.",
             "detection_id": "PG-003",
+            "control_mappings": {
+                "principles": [
+                    "Secure Communications"
+                ],
+                "nist_csf_2_0": [
+                    "PR.DS-02"
+                ],
+                "cis_controls_8_1": [
+                    "12.3",
+                    "12.6"
+                ],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 28,
             "rule_risk_severity": "LOW",
             "risk_breakdown": [
@@ -286,6 +442,12 @@
             "description": "Allowed firewall rule does not have a security inspection profile applied.",
             "recommendation": "Apply the appropriate security inspection controls.",
             "detection_id": "PG-005",
+            "control_mappings": {
+                "principles": [],
+                "nist_csf_2_0": [],
+                "cis_controls_8_1": [],
+                "pci_dss_4": []
+            },
             "rule_risk_score": 28,
             "rule_risk_severity": "LOW",
             "risk_breakdown": [

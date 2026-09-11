@@ -1,0 +1,76 @@
+mappings:
+
+  ANY_ANY_RULE:
+    principles:
+      - Least Privilege
+      - Network Segmentation
+
+    nist_csf_2_0:
+      - PR.AA-05
+      - PR.IR-01
+
+    cis_controls_8_1:
+      - "12.2"
+      - "13.4"
+
+    pci_dss_4:
+      - "1.3.1"
+      - "1.3.2"
+
+  BROAD_DESTINATION:
+    principles:
+      - Least Privilege
+      - Network Segmentation
+
+    nist_csf_2_0:
+      - PR.AA-05
+      - PR.IR-01
+
+    cis_controls_8_1:
+      - "12.2"
+      - "13.4"
+
+    pci_dss_4:
+      - "1.3.1"
+      - "1.3.2"
+
+  BROAD_SOURCE:
+    principles:
+      - Least Privilege
+      - Network Segmentation
+
+    nist_csf_2_0:
+      - PR.AA-05
+      - PR.IR-01
+
+    cis_controls_8_1:
+      - "12.2"
+      - "13.4"
+
+    pci_dss_4:
+      - "1.3.1"
+
+  INSECURE_PROTOCOL:
+    principles:
+      - Secure Communications
+
+    nist_csf_2_0:
+      - PR.DS-02
+
+    cis_controls_8_1:
+      - "12.3"
+      - "12.6"
+
+    pci_dss_4: []
+
+  LOGGING_GAP:
+    principles:
+      - Security Monitoring
+
+    nist_csf_2_0:
+      - PR.PS-04
+
+    cis_controls_8_1:
+      - "13.6"
+
+    pci_dss_4: []
